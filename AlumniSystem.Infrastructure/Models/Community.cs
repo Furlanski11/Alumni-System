@@ -8,6 +8,6 @@
 
 		public string Description { get; set; } = null!;
 
-		public ICollection<Alumni>? Members { get; set; }
+		public ICollection<Alumni>? Members { get; set; } = new List<Alumni>();
 	}
 }
