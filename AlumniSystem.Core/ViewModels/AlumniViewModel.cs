@@ -1,31 +1,38 @@
-﻿using AlumniSystem.Infrastructure.Models.Enums;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace AlumniSystem.Infrastructure.Models
+namespace AlumniSystem.Core.ViewModels
 {
-	public class Alumni
+	public class AlumniViewModel
 	{
 		public int Id { get; set; }
-
-		public string FirstName { get; set; } = null!;
-
-		public string Surname { get; set; } = null!;
-
-		public string LastName { get; set; } = null!;
-
+		
+		[Required]		
+		[MinLength(10)]
+		[MaxLength(10)]
 		public string FacultyNumber { get; set; } = null!;
 
+		[Required]
+		public string FirstName { get; set; } = null!;
+
+		[Required]
+		public string Surname { get; set; } = null!;
+
+		[Required]
+		public string LastName { get; set; } = null!;
+
+		[Required]
 		public string Email { get; set; } = null!;
 
-		public Faculty Faculty { get; set; }
+		[Required]
+		public int Faculty { get; set; }
 
+		[Required]
 		public string Degree { get; set; } = null!;
 
+		[Required]
 		public DateTime GraduationYear { get; set; }
 
+		[Required]
 		public string CurrentPosition { get; set; } = null!;
-
-		public ICollection<JobPosting>? JobPostings { get; set; } = new List<JobPosting>();
-
-		public ICollection<Community>? Communities { get; set; } = new List<Community>();
 	}
 }
