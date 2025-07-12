@@ -22,8 +22,7 @@ namespace AlumniSystem.Core.Services
 				Company = model.Company,
 				Description = model.Description,
 				Location = model.Location,
-				PostedOn = model.PostedOn,
-				AlumniId = model.AlumniId
+				PostedOn = model.PostedOn
 			};
 
 			await jobRepository.AddAsync(jobPosting);
@@ -50,8 +49,7 @@ namespace AlumniSystem.Core.Services
 				Company=j.Company,
 				Description=j.Description,
 				Location=j.Location,
-				PostedOn=j.PostedOn,
-				AlumniId=j.AlumniId
+				PostedOn=j.PostedOn
 			}).ToList();
 		}
 
@@ -65,8 +63,7 @@ namespace AlumniSystem.Core.Services
 				Company = jobPosting.Company,
 				Description = jobPosting.Description,
 				Location = jobPosting.Location,
-				PostedOn = jobPosting.PostedOn,
-				AlumniId = jobPosting.AlumniId
+				PostedOn = jobPosting.PostedOn
 			};
 		}
 
@@ -78,8 +75,7 @@ namespace AlumniSystem.Core.Services
 				Company = model.Company,
 				Description = model.Description,
 				Location = model.Location,
-				PostedOn = model.PostedOn,
-				AlumniId = model.AlumniId
+				PostedOn = model.PostedOn
 			};
 
 			await jobRepository.UpdateAsync(jobPosting);

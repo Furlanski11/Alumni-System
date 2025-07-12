@@ -36,7 +36,6 @@ namespace AlumniSystem.Infrastructure.Repositories
 		public async Task<IEnumerable<JobPosting>> GetAllAsync()
 		{
 			return await context.JobPostings
-				.Include(j => j.Alumni)
 				.AsNoTracking()
 				.ToListAsync();
 		}

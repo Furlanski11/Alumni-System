@@ -30,14 +30,14 @@ namespace AlumniSystem.Infrastructure.Data
 				entity.Property(a => a.Email).IsRequired();
 			});
 
-			modelBuilder.Entity<JobPosting>()
-				.HasOne(j => j.Alumni)
-				.WithMany(a => a.JobPostings)
-				.HasForeignKey(j => j.AlumniId);
-
 			modelBuilder.Entity<Community>()
 				.HasMany(c => c.Members)
 				.WithMany(a => a.Communities);
+
+			modelBuilder.Entity<Community>()
+				.HasMany(c => c.Members)
+				.WithMany(a => a.Communities)
+				.UsingEntity(j => j.ToTable("CommunityMmembers"));
 		}
 	}
 }

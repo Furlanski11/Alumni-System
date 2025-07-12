@@ -13,5 +13,9 @@ namespace AlumniSystem.Infrastructure.Interfaces
 		Task UpdateAsync(Community community);
 
 		Task DeleteAsync(int id);
+
+		Task AddMemberAsync(int communityId, int alumniId);
+
+		Task RemoveMemberAsync(int communityId, int alumniId);
 	}
 }

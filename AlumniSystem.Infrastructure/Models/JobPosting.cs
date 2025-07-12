@@ -13,8 +13,5 @@
 		public string Location { get; set; } = null!;
 
 		public DateTime PostedOn { get; set; }
-
-		public int AlumniId { get; set; }
-		public Alumni Alumni { get; set; } = null!;
 	}
 }

@@ -13,5 +13,9 @@ namespace AlumniSystem.Core.Interfaces
 		Task UpdateAsync(CommunityViewModel model);
 
 		Task DeleteAsync(int id);
+
+		Task JoinAsync(int communityId, int alumniId);
+
+		Task LeaveAsync(int communityId, int alumniId);
 	}
 }
