@@ -6,12 +6,12 @@ namespace AlumniSystem.Infrastructure.Interfaces
 	{
 		Task<IEnumerable<Alumni>> GetAllAsync();
 
-		Task<Alumni?> GetByIdAsync(int id);
+		Task<Alumni?> GetByIdAsync(string id);
 
 		Task AddAsync(Alumni alumni);
 
 		Task UpdateAsync(Alumni alumni);
 
-		Task DeleteAsync(int id);
+		Task DeleteAsync(string id);
 	}
 }

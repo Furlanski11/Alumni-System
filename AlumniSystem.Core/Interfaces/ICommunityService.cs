@@ -14,8 +14,8 @@ namespace AlumniSystem.Core.Interfaces
 
 		Task DeleteAsync(int id);
 
-		Task JoinAsync(int communityId, int alumniId);
+		Task JoinAsync(int communityId, string alumniId);
 
-		Task LeaveAsync(int communityId, int alumniId);
+		Task LeaveAsync(int communityId, string alumniId);
 	}
 }

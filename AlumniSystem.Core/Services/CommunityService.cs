@@ -2,7 +2,6 @@
 using AlumniSystem.Core.ViewModels;
 using AlumniSystem.Infrastructure.Interfaces;
 using AlumniSystem.Infrastructure.Models;
-using AlumniSystem.Infrastructure.Models.Enums;
 
 namespace AlumniSystem.Core.Services
 {
@@ -108,7 +107,7 @@ namespace AlumniSystem.Core.Services
 			await communityRepository.UpdateAsync(community);
 		}
 
-		public async Task JoinAsync(int communityId, int userId)
+		public async Task JoinAsync(int communityId, string userId)
 		{
 			var alumni = await alumnirepository.GetByIdAsync(userId);
 			if (alumni == null)
@@ -119,7 +118,7 @@ namespace AlumniSystem.Core.Services
 			await communityRepository.AddMemberAsync(communityId, alumni.Id);
 		}
 
-		public async Task LeaveAsync(int communityId, int userId)
+		public async Task LeaveAsync(int communityId, string userId)
 		{
 			var alumni = await alumnirepository.GetByIdAsync(userId);
 			if (alumni == null)

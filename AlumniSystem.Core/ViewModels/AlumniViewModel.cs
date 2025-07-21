@@ -5,7 +5,9 @@ namespace AlumniSystem.Core.ViewModels
 	public class AlumniViewModel
 	{
 		public int Id { get; set; }
-		
+
+		public string UserId { get; set; } = null!;
+
 		[Required]		
 		[MinLength(10)]
 		[MaxLength(10)]

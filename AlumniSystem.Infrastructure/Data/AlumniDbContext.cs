@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AlumniSystem.Infrastructure.Data
 {
-	public class AlumniDbContext : IdentityDbContext<IdentityUser>
+	public class AlumniDbContext : IdentityDbContext<ApplicationUser>
 	{
 		public AlumniDbContext(DbContextOptions<AlumniDbContext> potions)
 			:base(potions) 
@@ -20,6 +20,12 @@ namespace AlumniSystem.Infrastructure.Data
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			base.OnModelCreating(modelBuilder);
+
+			modelBuilder.Entity<ApplicationUser>()
+				.HasOne(u => u.Alumni)
+				.WithOne(a => a.User)
+				.HasForeignKey<Alumni>(a => a.UserId)
+				.OnDelete(DeleteBehavior.Cascade);
 
 			modelBuilder.Entity<Alumni>(entity =>
 			{

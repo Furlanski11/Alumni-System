@@ -6,12 +6,12 @@ namespace AlumniSystem.Core.Interfaces
 	{
 		Task<IEnumerable<AlumniViewModel>> GetAllAsync();
 
-		Task<AlumniViewModel> GetByIdAsync(int id);
+		Task<AlumniViewModel> GetByIdAsync(string id);
 
 		Task AddAsync(AlumniViewModel model);
 
 		Task UpdateAsync(AlumniViewModel model);
 
-		Task DeleteAsync(int id);
+		Task DeleteAsync(string id);
 	}
 }

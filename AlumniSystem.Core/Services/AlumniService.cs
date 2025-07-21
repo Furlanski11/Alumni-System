@@ -19,6 +19,7 @@ namespace AlumniSystem.Core.Services
 		{
 			var alumni = new Alumni
 			{
+				UserId = model.UserId,
 				FacultyNumber = model.FacultyNumber,
 				FirstName = model.FirstName,
 				Surname = model.Surname,
@@ -33,7 +34,7 @@ namespace AlumniSystem.Core.Services
 			await repository.AddAsync(alumni);
 		}
 
-		public async Task DeleteAsync(int id)
+		public async Task DeleteAsync(string id)
 		{
 			var alumni = repository.GetByIdAsync(id);
 
@@ -51,6 +52,7 @@ namespace AlumniSystem.Core.Services
 			return alumnis.Select(a => new AlumniViewModel
 			{
 				Id = a.Id,
+				UserId = a.UserId,
 				FacultyNumber = a.FacultyNumber,
 				FirstName = a.FirstName,
 				Surname = a.Surname,
@@ -63,13 +65,19 @@ namespace AlumniSystem.Core.Services
 			}).ToList();
 		}
 
-		public async Task<AlumniViewModel> GetByIdAsync(int id)
+		public async Task<AlumniViewModel> GetByIdAsync(string id)
 		{
 			var alumni = await repository.GetByIdAsync(id);
 
+			if(alumni == null)
+			{
+				return null;
+			}
+
 			return new AlumniViewModel
 			{
-				Id = id,
+				Id = alumni.Id,
+				UserId = alumni.UserId,
 				FacultyNumber = alumni.FacultyNumber,
 				FirstName = alumni.FirstName,
 				Surname = alumni.Surname,
@@ -87,6 +95,7 @@ namespace AlumniSystem.Core.Services
 			var alumni = new Alumni
 			{
 				Id = model.Id,
+				UserId = model.UserId,
 				FacultyNumber = model.FacultyNumber,
 				FirstName = model.FirstName,
 				Surname = model.Surname,

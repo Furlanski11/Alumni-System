@@ -20,7 +20,7 @@ namespace AlumniSystem.Infrastructure.Repositories
 			await context.SaveChangesAsync();
 		}
 
-		public async Task DeleteAsync(int id)
+		public async Task DeleteAsync(string id)
 		{
 			var alumniToDelete = await context.Alumnis.FindAsync(id);
 			
@@ -40,14 +40,11 @@ namespace AlumniSystem.Infrastructure.Repositories
 				.ToListAsync();
 		}
 
-		public async Task<Alumni?> GetByIdAsync(int id)
+		public async Task<Alumni?> GetByIdAsync(string id)
 		{
-			var alumni = await context.Alumnis.FirstOrDefaultAsync(a => a.Id == id);
-
-			if (alumni == null)
-			{
-				throw new ArgumentNullException("Alumni not found!");
-			}
+			var alumni = await context.Alumnis
+				.AsNoTracking()
+				.FirstOrDefaultAsync(a => a.UserId == id);
 
 			return alumni;
 		}

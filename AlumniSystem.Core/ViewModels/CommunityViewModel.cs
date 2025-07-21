@@ -10,6 +10,6 @@ namespace AlumniSystem.Core.ViewModels
 
 		public string Description { get; set; } = null!;
 
-		public int Members { get; set; }
+		public ICollection<AlumniViewModel>? Members { get; set; } = new List<AlumniViewModel>();
 	}
 }

@@ -6,6 +6,8 @@ namespace AlumniSystem.Infrastructure.Models
 	{
 		public int Id { get; set; }
 
+		public string UserId { get; set; } = null!;
+
 		public string FirstName { get; set; } = null!;
 
 		public string Surname { get; set; } = null!;
@@ -23,6 +25,8 @@ namespace AlumniSystem.Infrastructure.Models
 		public DateTime GraduationYear { get; set; }
 
 		public string CurrentPosition { get; set; } = null!;
+
+		public ApplicationUser User { get; set; } = null!;
 
 		public ICollection<JobPosting>? JobPostings { get; set; } = new List<JobPosting>();
 
