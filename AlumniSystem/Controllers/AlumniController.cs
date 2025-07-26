@@ -257,7 +257,7 @@ namespace AlumniSystem.Controllers
 			return View(alumni);
 		}
 
-		[HttpPost, ActionName("Delete")]
+		[HttpPost, ActionName("DeleteConfirmed")]
 		[Authorize(Roles = "Admin")]
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> DeleteConfirmed(string id)

@@ -22,7 +22,7 @@ namespace AlumniSystem.Infrastructure.Repositories
 
 		public async Task DeleteAsync(string id)
 		{
-			var alumniToDelete = await context.Alumnis.FindAsync(id);
+			var alumniToDelete = await context.Alumnis.FirstAsync(a => a.UserId == id);
 			
 			if (alumniToDelete == null)
 			{
