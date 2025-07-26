@@ -1,0 +1,45 @@
+﻿@model IEnumerable<AlumniSystem.Core.ViewModels.JobPostingViewModel>
+
+@{
+    ViewData["Title"] = "Обяви за работа";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    @if (User.IsInRole("Admin"))
+    {
+        <a asp-action="Create" class="btn btn-primary">Добави обява</a>
+    }
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Заглавие</th>
+            <th>Компания</th>
+            <th>Дата</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Title</td>
+                <td>@item.Company</td>
+                <td>@item.PostedOn</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id">Преглед</a>
+                    @if(User.IsInRole("Admin"))
+					{
+					  @: |
+						<a asp-action="Edit" asp-route-id="@item.Id">Редакция</a>
+						@: |
+						<a asp-action="Delete" asp-route-id="@item.Id">Изтриване</a>
+					}
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

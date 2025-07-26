@@ -1,0 +1,23 @@
+﻿@model AlumniSystem.Core.ViewModels.AlumniViewModel
+@{
+    ViewData["Title"] = "Изтрии потребител";
+}
+<h2>@ViewData["Title"]</h2>
+<h3>Сигурни ли сте, че искате да изтриете?</h3>
+<div>
+    <h4>Alumni</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">Факултетен номер</dt>
+        <dd class="col-sm-10">@Model.FacultyNumber</dd>
+        <dt class="col-sm-2">Име</dt>
+        <dd class="col-sm-10">@($"{Model.FirstName} {Model.Surname} {Model.LastName}")</dd>
+        <dt class="col-sm-2">Факултет</dt>
+        <dd class="col-sm-10">@((AlumniSystem.Infrastructure.Models.Enums.Faculty)Model.Faculty)</dd>
+    </dl>
+    <form asp-action="DeleteConfirmed" method="post">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-danger">Изтрии</button>
+        <a asp-action="Index" class="btn btn-secondary">Отказ</a>
+    </form>
+</div>

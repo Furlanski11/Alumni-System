@@ -1,0 +1,52 @@
+﻿@model AlumniSystem.Core.ViewModels.PagedResult<AlumniSystem.Core.ViewModels.CommunityViewModel>
+
+<h1>Общности</h1>
+<p>
+	<a asp-action="Create" class="btn btn-primary">Добави общност</a>
+</p>
+<table class="table">
+	<thead>
+		<tr>
+			<th>Име</th>
+			<th>Описание</th>
+			<th>Членове</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach(var item in Model.Items) {
+			<tr>
+				<td>@item.Name</td>
+				<td>@item.Description</td>
+				<td>@item.Members.Count</td>
+				<td>
+					<a asp-action="Details" asp-route-id="@item.Id">Преглед</a>
+					@if (User.IsInRole("Admin"))
+					{
+						@: |
+						<a asp-action="Edit" asp-route-id="@item.Id">Редакция</a>
+						@: |
+						<a asp-action="Delete" asp-route-id="@item.Id">Изтриване</a>
+					}
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>
+
+<nav>
+	<ul class="pagination">
+		<li class="page-item @(Model.PageNumber == 1 ? "disabled" : "")">
+			<a class="page-link" asp-action="Index" asp-route-page="@(Model.PageNumber - 1)">Предишна</a>
+		</li>
+		@for (int i = 1; i <= Model.TotalPages; i++)
+		{
+			<li class="page-item @(i == Model.PageNumber ? "active" : "")">
+				<a class="page-link" asp-action="Index" asp-route-page="@i">@i</a>
+			</li>
+		}
+		<li class="page-item @(Model.PageNumber == Model.TotalPages ? "disabled" : "")">
+			<a class="page-link" asp-action="Index" asp-route-page="@(Model.PageNumber + 1)">Следваща</a>
+		</li>
+	</ul>
+</nav>

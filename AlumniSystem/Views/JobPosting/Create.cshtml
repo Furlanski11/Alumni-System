@@ -1,0 +1,43 @@
+﻿@model AlumniSystem.Core.ViewModels.JobPostingViewModel
+
+@{
+    ViewData["Title"] = "Нова обява";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="Title"></label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Company"></label>
+        <input asp-for="Company" class="form-control" />
+        <span asp-validation-for="Company" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Description"></label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Location"></label>
+        <input asp-for="Location" class="form-control" />
+        <span asp-validation-for="Location" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="PostedOn"></label>
+        <input asp-for="PostedOn" type="date" class="form-control" />
+        <span asp-validation-for="PostedOn" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Запази</button>
+    <a asp-action="Index" class="btn btn-link">Отказ</a>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,16 @@
+﻿@model AlumniSystem.Core.ViewModels.EventViewModel
+<h1>Изтриване на събитие</h1>
+<h3>Сигурни ли сте, че искате да изтриете това събитие?</h3>
+<dl class="row">
+	<dt class="col-sm-2">Заглавие</dt>
+	<dd class="col-sm-10">@Model.Title</dd>
+	<dt class="col-sm-2">Дата</dt>
+	<dd class="col-sm-10">@Model.Date:yyyy-MM-dd</dd>
+	<dt class="col-sm-2">Локация</dt>
+	<dd class="col-sm-10">@Model.Location</dd>
+</dl>
+<form asp-action="Delete" method="post">
+	<input type="hidden" asp-for="Id" />
+	<button type="submit" class="btn btn-danger">Да, изтрий</button>
+	<a asp-action="Index" class="btn btn-secondary">Не, върни ме назад</a>
+</form>

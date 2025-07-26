@@ -1,0 +1,56 @@
+﻿@using AlumniSystem.Infrastructure.Models.Enums
+@model AlumniSystem.Core.ViewModels.PagedResult<AlumniSystem.Core.ViewModels.AlumniViewModel>
+
+<h1>Списък с възпитаници</h1>
+<p><a asp-action="Create" class="btn btn-primary">Добави нов</a></p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Фак. номер</th>
+            <th>Име</th>
+            <th>Факултет</th>
+            <th>Година на завършване</th>
+            <th>Специалност</th>
+            <th>Професия</th>
+            <th>Имейл</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var a in Model.Items)
+        {
+            <tr>
+                <td>@a.FacultyNumber</td>
+                <td>@($"{a.FirstName} {a.Surname} {a.LastName}")</td>
+                <td>@((Faculty)a.Faculty)</td>
+                <td>@a.GraduationYear.Year</td>
+                <td>@a.Degree</td>
+                <td>@a.CurrentPosition</td>
+                <td>@a.Email</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@a.Id">Преглед</a> |
+                    <a asp-action="Edit" asp-route-id="@a.Id">Редакция</a> |
+                    <a asp-action="Delete" asp-route-id="@a.Id">Изтриване</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<nav>
+    <ul class="pagination">
+        <li class="page-item @(Model.PageNumber == 1 ? "disabled" : "")">
+            <a class="page-link" asp-action="Index" asp-route-page="@(Model.PageNumber - 1)">Предишна</a>
+        </li>
+        @for (int i = 1; i <= Model.TotalPages; i++)
+        {
+            <li class="page-item @(i == Model.PageNumber ? "active" : "")">
+                <a class="page-link" asp-action="Index" asp-route-page="@i">@i</a>
+            </li>
+        }
+        <li class="page-item @(Model.PageNumber == Model.TotalPages ? "disabled" : "")">
+            <a class="page-link" asp-action="Index" asp-route-page="@(Model.PageNumber + 1)">Следваща</a>
+        </li>
+    </ul>
+</nav>

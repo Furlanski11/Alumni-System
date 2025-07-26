@@ -1,0 +1,42 @@
+﻿@using System.Security.Claims
+@inject IHttpContextAccessor HttpContextAccessor
+@model AlumniSystem.Core.ViewModels.CommunityViewModel
+ 
+@{
+    var isMember = (bool)(ViewBag.IsMember ?? false);
+    var communityId = Model.Id;
+}
+ 
+<h1>@Model.Name</h1>
+<p>@Model.Description</p>
+ 
+<form asp-action="@(isMember ? "Leave" : "Join")"
+      asp-controller="Community"
+      method="post"
+      class="mb-3">
+    <input type="hidden" name="id" value="@communityId" />
+    <button type="submit"
+            class="btn @(isMember ? "btn-warning" : "btn-success")">
+        @(isMember ? "Напусни общността" : "Присъедини се към общността")
+    </button>
+    @Html.AntiForgeryToken()
+</form>
+ 
+<h3>Участници (@Model.Members.Count)</h3>
+@if (Model.Members.Any())
+{
+    <ul>
+    @foreach(var m in Model.Members)
+    {
+        <li>@($"{m.FirstName} {m.LastName} {m.CurrentPosition}")</li>
+    }
+    </ul>
+}
+else
+{
+    <p><em>Все още няма участници.</em></p>
+}
+ 
+<p>
+  <a asp-action="Index" class="btn btn-link">← Назад към списъка</a>
+</p>

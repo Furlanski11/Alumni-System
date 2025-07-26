@@ -1,0 +1,16 @@
+﻿@model AlumniSystem.Core.ViewModels.EventViewModel
+<h1>Преглед на събитие</h1>
+<dl class="row">
+	<dt class="col-sm-2">Заглавие</dt>
+	<dd class="col-sm-10">@Model.Title</dd>
+	<dt class="col-sm-2">Описание</dt>
+	<dd class="col-sm-10">@Model.Description</dd>
+	<dt class="col-sm-2">Дата и час на провеждане</dt>
+	<dd class="col-sm-10">@Model.Date</dd>
+	<dt class="col-sm-2">Локация</dt>
+	<dd class="col-sm-10">@Model.Location</dd>
+</dl>
+<p>
+	<a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Редактирай</a>
+	<a asp-action="Index" class="btn btn-secondary">Назад</a>
+</p>

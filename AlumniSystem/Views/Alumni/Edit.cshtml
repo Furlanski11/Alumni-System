@@ -1,0 +1,68 @@
+﻿@model AlumniSystem.Core.ViewModels.AlumniViewModel
+@using AlumniSystem.Infrastructure.Models.Enums
+@{
+    ViewData["Title"] = "Редактирай потребител";
+}
+<h2 class="mx-auto">@ViewData["Title"]</h2>
+<form asp-action="Edit">
+    <input type="hidden" asp-for="Id" />
+    <!-- Repeat fields as in Create -->
+    <div class="form-group col-md-4">
+        <label asp-for="FacultyNumber">Факултетен номер</label>
+        <input asp-for="FacultyNumber" class="form-control" />
+        <span asp-validation-for="FacultyNumber" class="text-danger"></span>
+    </div>
+    <!-- Name fields -->
+    <div class="form-row">
+        <div class="form-group col-md-4">
+            <label asp-for="FirstName">Име</label>
+            <input asp-for="FirstName" class="form-control" />
+            <span asp-validation-for="FirstName" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-4">
+            <label asp-for="Surname">Бащино име</label>
+            <input asp-for="Surname" class="form-control" />
+            <span asp-validation-for="Surname" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-4">
+            <label asp-for="LastName">Фамилия</label>
+            <input asp-for="LastName" class="form-control" />
+            <span asp-validation-for="LastName" class="text-danger"></span>
+        </div>
+    </div>
+    <!-- Email -->
+    <div class="form-group form-group col-md-4">
+        <label asp-for="Email">Имейл</label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <div class="form-group form-group col-md-4">
+        <label asp-for="Faculty">Факултет</label>
+        <div class="form-group">
+            @* <label asp-for="Faculty" class="control-label"></label> *@
+            <select asp-for="Faculty" 
+                asp-items="Html.GetEnumSelectList<Faculty>()" 
+                class="form-control">
+            <option value="">-- Изберете факултет --</option>
+            </select>
+        <span asp-validation-for="Faculty" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group form-group col-md-4">
+        <label asp-for="Degree">Специалност</label>
+        <input asp-for="Degree" class="form-control" />
+        <span asp-validation-for="Degree" class="text-danger"></span>
+    </div>
+    <div class="form-group form-group col-md-4">
+        <label asp-for="GraduationYear">Дата на завършване</label>
+        <input asp-for="GraduationYear" type="date" class="form-control" />
+        <span asp-validation-for="GraduationYear" class="text-danger"></span>
+    </div>
+    <div class="form-group form-group col-md-4">
+        <label asp-for="CurrentPosition">Професия</label>
+        <input asp-for="CurrentPosition" class="form-control" />
+        <span asp-validation-for="CurrentPosition" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary mt-2">Запази</button>
+    <a asp-action="Index" class="btn btn-secondary mt-2">Отказ</a>
+</form>
