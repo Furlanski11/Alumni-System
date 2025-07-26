@@ -58,20 +58,46 @@ namespace AlumniSystem.Controllers
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Join(int Id)
 		{
-			var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-			await communityService.JoinAsync(Id, userId);
+			try
+			{
+				var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+				if (string.IsNullOrEmpty(userId))
+				{
+					return Forbid();
+				}
 
-			return RedirectToAction(nameof(Details), new { id = Id });
+				await communityService.JoinAsync(Id, userId);
+				TempData["SuccessMessage"] = "Успешнo присъединяване към общност.";
+				return RedirectToAction(nameof(Details), new { id = Id });
+			}
+			catch (Exception ex)
+			{
+				TempData["ErrorMessage"] = "Грешка при присъединяване към общност. Моля опитайте отново!";
+				return RedirectToAction(nameof(Details), new { id = Id });
+			}
 		}
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Leave(int Id)
 		{
-			var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-			await communityService.LeaveAsync(Id, userId);
+			try
+			{
+				var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+				if (string.IsNullOrEmpty(userId))
+				{
+					return Forbid();
+				}
 
-			return RedirectToAction(nameof(Details), new { id = Id });
+				await communityService.LeaveAsync(Id, userId);
+				TempData["SuccessMessage"] = "Успешно напускане на общност.";
+				return RedirectToAction(nameof(Details), new { id = Id });
+			}
+			catch (Exception ex)
+			{
+				TempData["ErrorMessage"] = "Грешка при напускане на общност. Моля опитайте отново!";
+				return RedirectToAction(nameof(Details), new { id = Id });
+			}
 		}
 
 		// GET: /Community/Create
@@ -87,16 +113,24 @@ namespace AlumniSystem.Controllers
 
 		// POST: /Community/Create
 		[HttpPost]
-		[ValidateAntiForgeryToken]
 		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> Create(CommunityViewModel model)
 		{
-			if (ModelState.IsValid)
+			try
 			{
-				await communityService.AddAsync(model);
-				return RedirectToAction(nameof(Index));
+				if (ModelState.IsValid)
+				{
+					await communityService.AddAsync(model);
+					TempData["SuccessMessage"] = "Успешно създаване на общност.";
+					return RedirectToAction(nameof(Index));
+				}
+				return View(model);
 			}
-			return View(model);
+			catch (Exception ex)
+			{
+				ModelState.AddModelError(string.Empty, "Грешка при създаване на общност. Моля опитайте отново!");
+				return View(model);
+			}
 		}
 
 		// GET: /Community/Edit/5

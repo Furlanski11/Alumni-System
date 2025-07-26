@@ -19,62 +19,236 @@ namespace AlumniSystem.Controllers
 
 		public async Task<IActionResult> Index(int page = 1)
 		{
-			var alumnis = (await service.GetAllAsync()).ToList();
-			var count = alumnis.Count;
-
-			var items = alumnis
-				.Skip((page-1) * PageSize)
-				.Take(PageSize);
-
-			var vm = new PagedResult<AlumniViewModel>
+			try
 			{
-				Items = items,
-				PageNumber = page,
-				PageSize = PageSize,
-				TotalItems = count
-			};
+				var alumnis = (await service.GetAllAsync()).ToList();
+				var count = alumnis.Count;
 
-			return View(vm);
+				var items = alumnis
+					.Skip((page - 1) * PageSize)
+					.Take(PageSize);
+
+				var vm = new PagedResult<AlumniViewModel>
+				{
+					Items = items,
+					PageNumber = page,
+					PageSize = PageSize,
+					TotalItems = count
+				};
+
+				return View(vm);
+			}
+			catch (Exception ex)
+			{
+				TempData["ErrorMessage"] = "Грешка при зареждане на данните. Моля опитайте отново!";
+				return View(new PagedResult<AlumniViewModel> { Items = new List<AlumniViewModel>(), PageNumber = 1, PageSize = PageSize, TotalItems = 0 });
+			}
 		}
 
 		public async Task<IActionResult> Details(string id)
 		{
-			var alumni = await service.GetByIdAsync(id);
+			try
+			{
+				if (string.IsNullOrEmpty(id))
+				{
+					return BadRequest();
+				}
 
-			return View(alumni);
+				var alumni = await service.GetByIdAsync(id);
+				if (alumni == null)
+				{
+					return NotFound();
+				}
+
+				// Security check: Users can view any profile (details are public)
+				// But we'll add a flag to show if they're viewing their own profile
+				var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+				ViewBag.IsOwnProfile = currentUserId == id;
+				ViewBag.IsAdmin = User.IsInRole("Admin");
+
+				return View(alumni);
+			}
+			catch (Exception ex)
+			{
+				TempData["ErrorMessage"] = "Грешка при зареждане на данни за Алумни. Моля опитайте отново!";
+				return RedirectToAction(nameof(Index));
+			}
 		}
 
-		public IActionResult Create()
+		[Authorize(Roles = "Admin")]
+		public async Task<IActionResult> Create()
 		{
-			var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value.ToString();
-			var vm = new AlumniViewModel { UserId = userId };
+			// This is now only available for Admin users to manually create Alumni profiles
+			var vm = new AlumniViewModel();
 			return View(vm);
 		}
 
 		[HttpPost]
-		[Authorize(Roles = "Admin, User")]
+		[Authorize(Roles = "Admin")]
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Create(AlumniViewModel model)
 		{
-			model.UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value.ToString();
-
-			ModelState.Remove(nameof(model.UserId));
-
-			if (!ModelState.IsValid)
+			try
 			{
+				// Admin can specify any UserId when creating Alumni profiles manually
+				if (string.IsNullOrEmpty(model.UserId))
+				{
+					ModelState.AddModelError(nameof(model.UserId), "User ID е нужно за ръчно създаване на Алумни!.");
+					return View(model);
+				}
+
+				// Check if Alumni profile already exists for this user
+				var existingAlumni = await service.GetByIdAsync(model.UserId);
+				if (existingAlumni != null)
+				{
+					ModelState.AddModelError(string.Empty, "Вече съществува Алумни за този потребител.");
+					return View(model);
+				}
+
+				if (!ModelState.IsValid)
+				{
+					return View(model);
+				}
+
+				await service.AddAsync(model);
+				TempData["SuccessMessage"] = "Успешно създаден Алумни профил от Админ";
+				return RedirectToAction(nameof(Index));
+			}
+			catch (Exception ex)
+			{
+				ModelState.AddModelError(string.Empty, $"Изникна грешка при създаване на Алумни профил: {ex.Message}");
 				return View(model);
 			}
-
-			await service.AddAsync(model);
-			return RedirectToAction(nameof(Index));
 		}
 
 		[Authorize]
 		public async Task<IActionResult> Edit()
 		{
+			// Users can only edit their own profile
 			var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 			var alumni = await service.GetByIdAsync(userId);
 
+			if (alumni == null)
+			{
+				TempData["InfoMessage"] = "Все още няма Алумни профил. Трябваше да е създаден при регистрация.";
+				return RedirectToAction(nameof(Index));
+			}
+
+			return View(alumni);
+		}
+
+		[Authorize]
+		public async Task<IActionResult> MyProfile()
+		{
+			// Convenient redirect to user's own profile
+			return RedirectToAction(nameof(Edit));
+		}
+
+		[Authorize(Roles = "Admin")]
+		public async Task<IActionResult> EditUser(string id)
+		{
+			// Only admins can edit other users' profiles
+			if (string.IsNullOrEmpty(id))
+			{
+				return BadRequest();
+			}
+
+			var alumni = await service.GetByIdAsync(id);
+			if (alumni == null)
+			{
+				return NotFound();
+			}
+
+			ViewBag.IsAdminEdit = true;
+			ViewBag.EditingUserId = id;
+			return View("Edit", alumni);
+		}
+
+		[HttpPost]
+		[Authorize]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Edit(AlumniViewModel model)
+		{
+			try
+			{
+				var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+				if (string.IsNullOrEmpty(currentUserId))
+				{
+					return Forbid();
+				}
+
+				// Security check: Regular users can only edit their own profile
+				if (!User.IsInRole("Admin"))
+				{
+					// Force the UserId to be the current user's ID (prevent tampering)
+					model.UserId = currentUserId;
+
+					var existingAlumni = await service.GetByIdAsync(currentUserId);
+					if (existingAlumni == null)
+					{
+						return NotFound("Алумни профил не е намерен.");
+					}
+
+					// Ensure they can only update their own record
+					model.Id = existingAlumni.Id;
+				}
+				else
+				{
+					// Admin editing: Validate the target user exists
+					if (string.IsNullOrEmpty(model.UserId))
+					{
+						ModelState.AddModelError(nameof(model.UserId), "User ID е задължително.");
+						return View(model);
+					}
+
+					var existingAlumni = await service.GetByIdAsync(model.UserId);
+					if (existingAlumni == null)
+					{
+						return NotFound("Алумни профил не е намерен.");
+					}
+
+					model.Id = existingAlumni.Id;
+					ViewBag.IsAdminEdit = true;
+					ViewBag.EditingUserId = model.UserId;
+				}
+
+				// Remove UserId from model validation since we set it manually
+				ModelState.Remove(nameof(model.UserId));
+
+				if (!ModelState.IsValid)
+				{
+					return View(model);
+				}
+
+				await service.UpdateAsync(model);
+
+				if (User.IsInRole("Admin") && model.UserId != currentUserId)
+				{
+					TempData["SuccessMessage"] = "Алумни профил е редактиран успешно от Админ!";
+				}
+				else
+				{
+					TempData["SuccessMessage"] = "Профилът ви е редактиран успешно!";
+				}
+
+				return RedirectToAction(nameof(Index));
+			}
+			catch (Exception ex)
+			{
+				ModelState.AddModelError(string.Empty, $"An error occurred while updating the alumni profile: {ex.Message}");
+				return View(model);
+			}
+		}
+
+		[Authorize(Roles = "Admin")]
+		public async Task<IActionResult> Delete(string id)
+		{
+			if (string.IsNullOrEmpty(id))
+			{
+				return BadRequest();
+			}
+
+			var alumni = await service.GetByIdAsync(id);
 			if (alumni == null)
 			{
 				return NotFound();
@@ -83,41 +257,27 @@ namespace AlumniSystem.Controllers
 			return View(alumni);
 		}
 
-		[HttpPost]
-		[Authorize]
-		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Edit(AlumniViewModel model)
-		{
-			var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-			var vm = await service.GetByIdAsync(userId);
-			if (vm == null)
-			{
-				return Forbid();
-			}
-
-			if(!User.IsInRole("Admin") && vm.UserId != userId)
-			{
-				return Forbid();
-			}
-			await service.UpdateAsync(model);
-			return View(model);
-		}
-
-		public async Task<IActionResult> Delete(string id)
-		{
-			var alumni = await service.GetByIdAsync(id);
-
-			return View(alumni);
-		}
-
-		[HttpPost, ActionName("DeleteConfirmed")]
+		[HttpPost, ActionName("Delete")]
 		[Authorize(Roles = "Admin")]
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> DeleteConfirmed(string id)
 		{
-			await service.DeleteAsync(id);
-			return RedirectToAction(nameof(Index));
+			try
+			{
+				if (string.IsNullOrEmpty(id))
+				{
+					return BadRequest();
+				}
+
+				await service.DeleteAsync(id);
+				TempData["SuccessMessage"] = "Успешно изтрит Алумни профил.";
+				return RedirectToAction(nameof(Index));
+			}
+			catch (Exception ex)
+			{
+				TempData["ErrorMessage"] = "Грешка при изтриване на Алумни профил. Моля опитайте отново!";
+				return RedirectToAction(nameof(Index));
+			}
 		}
 	}
 }

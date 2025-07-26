@@ -43,7 +43,7 @@ namespace AlumniSystem.Infrastructure.Data
 			modelBuilder.Entity<Community>()
 				.HasMany(c => c.Members)
 				.WithMany(a => a.Communities)
-				.UsingEntity(j => j.ToTable("CommunityMmembers"));
+				.UsingEntity(j => j.ToTable("CommunityMembers"));
 		}
 	}
 }

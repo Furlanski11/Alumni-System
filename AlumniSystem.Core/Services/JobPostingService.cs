@@ -30,7 +30,7 @@ namespace AlumniSystem.Core.Services
 
 		public async Task DeleteAsync(int id)
 		{
-			var job = jobRepository.GetByIdAsync(id);
+			var job = await jobRepository.GetByIdAsync(id);
 
 			if (job == null)
 			{
@@ -45,11 +45,12 @@ namespace AlumniSystem.Core.Services
 
 			return jobPostings.Select(j => new JobPostingViewModel
 			{
-				Title=j.Title,
-				Company=j.Company,
-				Description=j.Description,
-				Location=j.Location,
-				PostedOn=j.PostedOn
+				Id = j.Id,
+				Title = j.Title,
+				Company = j.Company,
+				Description = j.Description,
+				Location = j.Location,
+				PostedOn = j.PostedOn
 			}).ToList();
 		}
 
@@ -57,8 +58,14 @@ namespace AlumniSystem.Core.Services
 		{
 			var jobPosting = await jobRepository.GetByIdAsync(id);
 
+			if (jobPosting == null)
+			{
+				return null;
+			}
+
 			return new JobPostingViewModel
 			{
+				Id = jobPosting.Id,
 				Title = jobPosting.Title,
 				Company = jobPosting.Company,
 				Description = jobPosting.Description,
@@ -71,6 +78,7 @@ namespace AlumniSystem.Core.Services
 		{
 			var jobPosting = new JobPosting
 			{
+				Id = model.Id,
 				Title = model.Title,
 				Company = model.Company,
 				Description = model.Description,

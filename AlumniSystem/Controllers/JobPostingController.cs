@@ -36,19 +36,21 @@ namespace AlumniSystem.Controllers
 		// GET: /JobPosting/Details/5
 		public async Task<IActionResult> Details(int id)
 		{
-			var j = await _jobService.GetByIdAsync(id);
-			if (j == null) return NotFound();
-
-			var vm = new JobPostingViewModel
+			try
 			{
-				Id = j.Id,
-				Title = j.Title,
-				Company = j.Company,
-				Description = j.Description,
-				Location = j.Location,
-				PostedOn = j.PostedOn
-			};
-			return View(vm);
+				var jobPosting = await _jobService.GetByIdAsync(id);
+				if (jobPosting == null)
+				{
+					return NotFound();
+				}
+
+				return View(jobPosting);
+			}
+			catch (Exception ex)
+			{
+				TempData["ErrorMessage"] = "An error occurred while loading job posting details.";
+				return RedirectToAction(nameof(Index));
+			}
 		}
 
 		// GET: /JobPosting/Create
@@ -63,39 +65,42 @@ namespace AlumniSystem.Controllers
 		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> Create(JobPostingViewModel model)
 		{
-			if (!ModelState.IsValid)
-				return View(model);
-
-			var job = new JobPostingViewModel
+			try
 			{
-				Title = model.Title,
-				Company = model.Company,
-				Description = model.Description,
-				Location = model.Location,
-				PostedOn = model.PostedOn,
-			};
+				if (!ModelState.IsValid)
+					return View(model);
 
-			await _jobService.AddAsync(job);
-			return RedirectToAction(nameof(Index));
+				model.PostedOn = DateTime.Now;
+				await _jobService.AddAsync(model);
+				TempData["SuccessMessage"] = "Job posting created successfully.";
+				return RedirectToAction(nameof(Index));
+			}
+			catch (Exception ex)
+			{
+				ModelState.AddModelError(string.Empty, "An error occurred while creating the job posting. Please try again.");
+				return View(model);
+			}
 		}
 
 		// GET: /JobPosting/Edit/5
 		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> Edit(int id)
 		{
-			var j = await _jobService.GetByIdAsync(id);
-			if (j == null) return NotFound();
-
-			var vm = new JobPostingViewModel
+			try
 			{
-				Id = j.Id,
-				Title = j.Title,
-				Company = j.Company,
-				Description = j.Description,
-				Location = j.Location,
-				PostedOn = j.PostedOn,
-			};
-			return View(vm);
+				var jobPosting = await _jobService.GetByIdAsync(id);
+				if (jobPosting == null)
+				{
+					return NotFound();
+				}
+
+				return View(jobPosting);
+			}
+			catch (Exception ex)
+			{
+				TempData["ErrorMessage"] = "An error occurred while loading the job posting for editing.";
+				return RedirectToAction(nameof(Index));
+			}
 		}
 
 		// POST: /JobPosting/Edit/5
@@ -103,41 +108,43 @@ namespace AlumniSystem.Controllers
 		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> Edit(int id, JobPostingViewModel model)
 		{
-			if (id != model.Id)
-				return BadRequest();
-			if (!ModelState.IsValid)
+			try
+			{
+				if (id != model.Id)
+					return BadRequest();
+				if (!ModelState.IsValid)
+					return View(model);
+
+				await _jobService.UpdateAsync(model);
+				TempData["SuccessMessage"] = "Job posting updated successfully.";
+				return RedirectToAction(nameof(Index));
+			}
+			catch (Exception ex)
+			{
+				ModelState.AddModelError(string.Empty, "An error occurred while updating the job posting. Please try again.");
 				return View(model);
-
-			var j = await _jobService.GetByIdAsync(id);
-			if (j == null) return NotFound();
-
-			j.Title = model.Title;
-			j.Company = model.Company;
-			j.Description = model.Description;
-			j.Location = model.Location;
-			j.PostedOn = model.PostedOn;
-
-			await _jobService.UpdateAsync(j);
-			return RedirectToAction(nameof(Index));
+			}
 		}
 
 		// GET: /JobPosting/Delete/5
 		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> Delete(int id)
 		{
-			var j = await _jobService.GetByIdAsync(id);
-			if (j == null) return NotFound();
-
-			var vm = new JobPostingViewModel
+			try
 			{
-				Id = j.Id,
-				Title = j.Title,
-				Company = j.Company,
-				Description = j.Description,
-				Location = j.Location,
-				PostedOn = j.PostedOn
-			};
-			return View(vm);
+				var jobPosting = await _jobService.GetByIdAsync(id);
+				if (jobPosting == null)
+				{
+					return NotFound();
+				}
+
+				return View(jobPosting);
+			}
+			catch (Exception ex)
+			{
+				TempData["ErrorMessage"] = "An error occurred while loading the job posting for deletion.";
+				return RedirectToAction(nameof(Index));
+			}
 		}
 
 		// POST: /JobPosting/Delete/5
@@ -145,11 +152,17 @@ namespace AlumniSystem.Controllers
 		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> DeleteConfirmed(int id)
 		{
-			var j = await _jobService.GetByIdAsync(id);
-			if (j == null) return NotFound();
-
-			await _jobService.DeleteAsync(id);
-			return RedirectToAction(nameof(Index));
+			try
+			{
+				await _jobService.DeleteAsync(id);
+				TempData["SuccessMessage"] = "Job posting deleted successfully.";
+				return RedirectToAction(nameof(Index));
+			}
+			catch (Exception ex)
+			{
+				TempData["ErrorMessage"] = "An error occurred while deleting the job posting. Please try again.";
+				return RedirectToAction(nameof(Index));
+			}
 		}
 	}
 }

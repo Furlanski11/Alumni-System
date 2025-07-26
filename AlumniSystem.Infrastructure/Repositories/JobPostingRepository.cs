@@ -26,7 +26,7 @@ namespace AlumniSystem.Infrastructure.Repositories
 
 			if (job == null)
 			{
-				throw new Exception("Job not found!");
+				throw new ArgumentException($"Job posting with ID {id} not found!");
 			}
 
 			context.JobPostings.Remove(job);
@@ -42,12 +42,9 @@ namespace AlumniSystem.Infrastructure.Repositories
 
 		public async Task<JobPosting> GetByIdAsync(int id)
 		{
-			var job = await context.JobPostings.FindAsync(id);
-
-			if (job == null)
-			{
-				throw new Exception("Job not found!");
-			}
+			var job = await context.JobPostings
+				.AsNoTracking()
+				.FirstOrDefaultAsync(j => j.Id == id);
 
 			return job;
 		}

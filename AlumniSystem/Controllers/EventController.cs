@@ -67,11 +67,21 @@ namespace AlumniSystem.Controllers
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Create(EventViewModel model)
 		{
-			if (!ModelState.IsValid)
-				return View(model);
+			try
+			{
+				if (!ModelState.IsValid)
+					return View(model);
 
-			await _eventService.AddAsync(model);
-			return RedirectToAction(nameof(Index));
+				await _eventService.AddAsync(model);
+				TempData["SuccessMessage"] = "Успешно създадено събитие.";
+				return RedirectToAction(nameof(Index));
+			}
+
+			catch (Exception ex)
+			{
+				ModelState.AddModelError(string.Empty, "Грешка при създаване на събитие. Моля опитайте отново!");
+				return View(model);
+			}
 		}
 
 		// GET: /Event/Edit/5
@@ -79,15 +89,8 @@ namespace AlumniSystem.Controllers
 		public async Task<IActionResult> Edit(int id)
 		{
 			var e = await _eventService.GetByIdAsync(id);
-			var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-			var currentUser = await _eventService.GetByIdAsync(int.Parse(userId));
-			if (e == null) return NotFound();
 
-			if(!User.IsInRole("Admin")
-				)
-			{
-				return Forbid();
-			}
+			if (e == null) return NotFound();
 
 			return View(e);
 		}
@@ -98,21 +101,22 @@ namespace AlumniSystem.Controllers
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Edit(int id, EventViewModel model)
 		{
-			if (id != model.Id)
-				return BadRequest();
-			if (!ModelState.IsValid)
-				return View(model);
-
-			var e = new EventViewModel
+			try
 			{
-				Id = model.Id,
-				Title = model.Title,
-				Description = model.Description,
-				Date = model.Date,
-				Location = model.Location
-			};
-			await _eventService.UpdateAsync(e);
-			return RedirectToAction(nameof(Index));
+				if (id != model.Id)
+					return BadRequest();
+				if (!ModelState.IsValid)
+					return View(model);
+
+				await _eventService.UpdateAsync(model);
+				TempData["SuccessMessage"] = "Събитието беше редактирано успешно!";
+				return RedirectToAction(nameof(Index));
+			}
+			catch (Exception ex)
+			{
+				ModelState.AddModelError(string.Empty, "Грешка по време на редакция на събитието. Моля опитайте отново!");
+				return View(model);
+			}
 		}
 
 		// GET: /Event/Delete/5
@@ -138,8 +142,17 @@ namespace AlumniSystem.Controllers
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> DeleteConfirmed(int id)
 		{
-			await _eventService.DeleteAsync(id);
-			return RedirectToAction(nameof(Index));
+			try
+			{
+				await _eventService.DeleteAsync(id);
+				TempData["SuccessMessage"] = "Успешно изтриване на събитие.";
+				return RedirectToAction(nameof(Index));
+			}
+			catch (Exception ex)
+			{
+				TempData["ErrorMessage"] = "Грешка при изтриване на събитие. Моля опитайте отново!";
+				return RedirectToAction(nameof(Index));
+			}
 		}
 	}
 }

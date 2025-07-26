@@ -42,6 +42,11 @@ namespace AlumniSystem.Infrastructure.Repositories
 
 		public async Task<Alumni?> GetByIdAsync(string id)
 		{
+			if (string.IsNullOrEmpty(id))
+			{
+				throw new ArgumentNullException(nameof(id), "Id cannot be null or empty.");
+			}
+
 			var alumni = await context.Alumnis
 				.AsNoTracking()
 				.FirstOrDefaultAsync(a => a.UserId == id);
