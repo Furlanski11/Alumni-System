@@ -1,22 +1,90 @@
 ﻿@model AlumniSystem.Core.ViewModels.CommunityViewModel
+@{
+    ViewData["Title"] = "Нова алумни общност";
+}
 
-<h1>Нова общност</h1>
+<div class="university-page-header">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h1 class="page-title">
+                    <i class="fas fa-plus text-primary"></i>
+                    Нова алумни общност
+                </h1>
+                <p class="page-subtitle">Създайте нова общност по интереси и направления</p>
+            </div>
+            <div class="col-md-4 text-md-end">
+                <a asp-action="Index" class="btn btn-outline-university">
+                    <i class="fas fa-arrow-left"></i> Назад
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
 
-<form asp-action="Create" method="post">
-    <div class="form-group">
-        <label asp-for="Name" class="control-label"></label>
-        <input asp-for="Name" class="form-control" />
-        <span asp-validation-for="Name" class="text-danger"></span>
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="university-card form-card">
+                <div class="card-header bg-university text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-user-friends"></i>
+                        Информация за общността
+                    </h5>
+                </div>
+
+                <div class="card-body">
+                    <form asp-action="Create" method="post" class="university-form" id="community-create-form">
+                        <input type="hidden" asp-for="Id" />
+
+                        <!-- Community Information Section -->
+                        <div class="form-section">
+                            <div class="form-section-header">
+                                <h6><i class="fas fa-info-circle"></i> Основна информация</h6>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Name" class="form-label">
+                                    <i class="fas fa-tag text-primary"></i> Име на общността
+                                </label>
+                                <input asp-for="Name" class="form-control university-input" placeholder="Въведете име на общността" />
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                                <small class="form-text text-muted">
+                                    <i class="fas fa-info-circle"></i>
+                                    Изберете описателно име, което ясно показва темата или интереса на общността.
+                                </small>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Description" class="form-label">
+                                    <i class="fas fa-align-left text-primary"></i> Описание на общността
+                                </label>
+                                <textarea asp-for="Description" class="form-control university-input" rows="6"
+                                          placeholder="Опишете целта, дейностите и това, което прави общността уникална..."></textarea>
+                                <span asp-validation-for="Description" class="text-danger"></span>
+                                <small class="form-text text-muted">
+                                    <i class="fas fa-lightbulb"></i>
+                                    Включете информация за целите, дейностите и как алумните могат да се включат.
+                                </small>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="card-footer text-center">
+                    <div class="btn-group-university" role="group">
+                        <button type="submit" form="community-create-form" class="btn btn-university-primary btn-lg">
+                            <i class="fas fa-plus"></i> Създай общност
+                        </button>
+                        <a asp-action="Index" class="btn btn-outline-secondary btn-lg">
+                            <i class="fas fa-times"></i> Отказ
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="form-group">
-        <label asp-for="Description" class="control-label"></label>
-        <textarea asp-for="Description" class="form-control"></textarea>
-        <span asp-validation-for="Description" class="text-danger"></span>
-    </div>
-    <input type="hidden" asp-for="Id" />
-    <button type="submit" class="btn btn-success mt-2">Добави</button>
-    <a asp-action="Index" class="btn btn-secondary mt-2">Отказ</a>
-</form>
+</div>
 
 @section Scripts {
     @{

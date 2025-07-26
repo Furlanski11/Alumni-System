@@ -11,6 +11,10 @@
 	<dd class="col-sm-10">@Model.Location</dd>
 </dl>
 <p>
-	<a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Редактирай</a>
+	@if(User.IsInRole("Admin"))
+	{
+		<a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Редактирай</a>
+		<a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Изтрий</a>
+	}
 	<a asp-action="Index" class="btn btn-secondary">Назад</a>
 </p>

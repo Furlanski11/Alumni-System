@@ -2,81 +2,314 @@
 @model LoginModel
 
 @{
-    ViewData["Title"] = "Log in";
+    ViewData["Title"] = "Вход";
+    Layout = null; // Use custom layout for login page
 }
 
-<h1>@ViewData["Title"]</h1>
-<div class="row">
-    <div class="col-md-4">
-        <section>
-            <form id="account" method="post">
-                <h2>Use a local account to log in.</h2>
-                <hr />
-                <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-                <div class="form-floating mb-3">
-                    <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
-                    <label asp-for="Input.Email" class="form-label">Email</label>
-                    <span asp-validation-for="Input.Email" class="text-danger"></span>
-                </div>
-                <div class="form-floating mb-3">
-                    <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="password" />
-                    <label asp-for="Input.Password" class="form-label">Password</label>
-                    <span asp-validation-for="Input.Password" class="text-danger"></span>
-                </div>
-                <div class="checkbox mb-3">
-                    <label asp-for="Input.RememberMe" class="form-label">
-                        <input class="form-check-input" asp-for="Input.RememberMe" />
-                        @Html.DisplayNameFor(m => m.Input.RememberMe)
-                    </label>
-                </div>
-                <div>
-                    <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
-                </div>
-                <div>
-                    <p>
-                        <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
-                    </p>
-                    <p>
-                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
-                    </p>
-                    <p>
-                        <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Resend email confirmation</a>
-                    </p>
-                </div>
-            </form>
-        </section>
-    </div>
-    <div class="col-md-6 col-md-offset-2">
-        <section>
-            <h3>Use another service to log in.</h3>
-            <hr />
-            @{
-                if ((Model.ExternalLogins?.Count ?? 0) == 0)
-                {
-                    <div>
-                        <p>
-                            There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">article
-                            about setting up this ASP.NET application to support logging in via external services</a>.
-                        </p>
-                    </div>
-                }
-                else
-                {
-                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
-                        <div>
-                            <p>
-                                @foreach (var provider in Model.ExternalLogins!)
-                                {
-                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                                }
-                            </p>
-                        </div>
-                    </form>
-                }
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Alumni System</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #e8eaf0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+        }
+
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .login-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .university-header {
+            background: white;
+            padding: 2rem 2rem 1rem 2rem;
+            text-align: center;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .university-logo {
+            margin: 0 auto 1rem auto;
+            background: #2c3e50;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+            /* Placeholder logo design matching the university style */
+            .university-logo::before {
+                content: '';
+                position: absolute;
+                width: 80%;
+                height: 80%;
+                background: radial-gradient(circle, transparent 30%, #2c3e50 30%, #2c3e50 35%, transparent 35%), conic-gradient(from 0deg, #2c3e50 0deg, transparent 10deg, #2c3e50 20deg, transparent 30deg, #2c3e50 40deg, transparent 50deg, #2c3e50 60deg, transparent 70deg, #2c3e50 80deg, transparent 90deg, #2c3e50 100deg, transparent 110deg, #2c3e50 120deg, transparent 130deg, #2c3e50 140deg, transparent 150deg, #2c3e50 160deg, transparent 170deg, #2c3e50 180deg, transparent 190deg, #2c3e50 200deg, transparent 210deg, #2c3e50 220deg, transparent 230deg, #2c3e50 240deg, transparent 250deg, #2c3e50 260deg, transparent 270deg, #2c3e50 280deg, transparent 290deg, #2c3e50 300deg, transparent 310deg, #2c3e50 320deg, transparent 330deg, #2c3e50 340deg, transparent 350deg, #2c3e50 360deg);
+                border-radius: 50%;
             }
-        </section>
+
+            .university-logo .logo-center {
+                position: relative;
+                z-index: 2;
+                width: 50px;
+                height: 50px;
+                background: #2c3e50;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                font-weight: bold;
+                font-size: 0.8rem;
+            }
+
+        .university-name {
+            color: #2c3e50;
+            font-weight: 700;
+            font-size: 1.4rem;
+            margin: 0 0 0.25rem 0;
+            letter-spacing: 0.5px;
+        }
+
+        .university-subtitle {
+            color: #2c3e50;
+            font-weight: 600;
+            font-size: 1rem;
+            margin: 0 0 0.25rem 0;
+        }
+
+        .university-year {
+            color: #666;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        .login-form-section {
+            padding: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+            .form-control:focus {
+                outline: none;
+                border-color: #4a90e2;
+                box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+            }
+
+        .btn-primary {
+            width: 100%;
+            background: #4a90e2;
+            border: none;
+            border-radius: 4px;
+            padding: 0.75rem;
+            font-weight: 600;
+            font-size: 1rem;
+            color: white;
+            transition: background-color 0.3s ease;
+            margin-bottom: 1rem;
+        }
+
+            .btn-primary:hover {
+                background: #357abd;
+            }
+
+        .btn-google {
+            width: 100%;
+            background: #dd4b39;
+            border: none;
+            border-radius: 4px;
+            padding: 0.75rem;
+            font-weight: 600;
+            font-size: 1rem;
+            color: white;
+            transition: background-color 0.3s ease;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+            .btn-google:hover {
+                background: #c23321;
+            }
+
+        .btn-register {
+            width: 100%;
+            background: #5cb85c;
+            border: none;
+            border-radius: 4px;
+            padding: 0.75rem;
+            font-weight: 600;
+            font-size: 1rem;
+            color: white;
+            transition: background-color 0.3s ease;
+            margin-bottom: 1.5rem;
+        }
+
+            .btn-register:hover {
+                background: #449d44;
+            }
+
+        .login-links {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+        }
+
+            .login-links a {
+                color: #4a90e2;
+                text-decoration: none;
+                transition: color 0.3s ease;
+            }
+
+                .login-links a:hover {
+                    color: #357abd;
+                    text-decoration: underline;
+                }
+
+        .alert {
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+
+        .text-danger {
+            color: #dc3545 !important;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+
+        /* Custom styles for when you add the university logo image */
+        .university-logo.with-image {
+            background: white;
+            border: 2px solid #e9ecef;
+        }
+
+            .university-logo.with-image::before {
+                display: none;
+            }
+
+            .university-logo.with-image img {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+            }
+
+        /* Responsive Design */
+        @@media (max-width: 768px) {
+            .login-container {
+                padding: 1rem;
+            }
+
+            .login-card {
+                max-width: 100%;
+            }
+
+            .university-header {
+                padding: 1.5rem 1.5rem 1rem 1.5rem;
+            }
+
+            .login-form-section {
+                padding: 1.5rem;
+            }
+
+            .university-logo {
+                width: 100px;
+                height: 100px;
+            }
+
+            .university-name {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <!-- University Header -->
+            <div class="university-header">
+                <!-- TODO: Replace this with your actual university logo -->
+                <div class="university-logo with-image">
+                    <img src="~/images/puLoginPic.png" alt="University Logo" />
+            </div>
+
+            <!-- Login Form Section -->
+            <div class="login-form-section">
+                <form id="account" method="post">
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+                    <div class="form-group">
+                        <label class="form-label" asp-for="Input.Email">Потребителско име</label>
+                        <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="Въведете потребителско име" />
+                        <span asp-validation-for="Input.Email" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" asp-for="Input.Password">Парола</label>
+                        <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="Въведете парола" />
+                        <span asp-validation-for="Input.Password" class="text-danger"></span>
+                    </div>
+
+                    <button id="login-submit" type="submit" class="btn btn-primary">
+                        Вход
+                    </button>
+
+                    <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" class="btn btn-register">
+                        Регистрация
+                    </a>
+
+                    <div class="login-links">
+                        <a id="forgot-password" asp-page="./ForgotPassword">Забравена парола</a>
+                            <a href="https://e-portal.uni-plovdiv.bg/%D0%9E%D0%B1%D1%89%D0%B8%20%D1%83%D1%81%D0%BB%D0%BE%D0%B2%D0%B8%D1%8F%20%D0%B7%D0%B0%20%D0%BF%D0%BE%D0%BB%D0%B7%D0%B2%D0%B0%D0%BD%D0%B5.pdf" onclick="return true;">Общи условия</a>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-</div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <partial name="_ValidationScriptsPartial" />
+</body>
+</html>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

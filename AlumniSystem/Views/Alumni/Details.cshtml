@@ -1,29 +1,134 @@
 ﻿@using AlumniSystem.Infrastructure.Models.Enums
 @model AlumniSystem.Core.ViewModels.AlumniViewModel
 @{
-    ViewData["Title"] = $"Детайли за {Model.FirstName} {Model.Surname} {Model.LastName}";
+    ViewData["Title"] = $"Профил на {Model.FirstName} {Model.Surname} {Model.LastName}";
 }
-<h2>@ViewData["Title"]</h2>
-<div>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">Факултетен номер</dt>
-        <dd class="col-sm-10">@Model.FacultyNumber</dd>
-        <dt class="col-sm-2">Име</dt>
-        <dd class="col-sm-10">@($"{Model.FirstName} {Model.Surname} {Model.LastName}")</dd>
-        <dt class="col-sm-2">Имейл</dt>
-        <dd class="col-sm-10">@Model.Email</dd>
-        <dt class="col-sm-2">Факултет</dt>
-        <dd class="col-sm-10">@((Faculty)Model.Faculty)</dd>
-        <dt class="col-sm-2">Специалност</dt>
-        <dd class="col-sm-10">@Model.Degree</dd>
-        <dt class="col-sm-2">Година на завършване</dt>
-        <dd class="col-sm-10">@Model.GraduationYear.ToShortDateString()</dd>
-        <dt class="col-sm-2">Професия</dt>
-        <dd class="col-sm-10">@Model.CurrentPosition</dd>
-    </dl>
+
+<div class="university-page-header">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h1 class="page-title">
+                    <i class="fas fa-user-circle text-primary"></i>
+                    Алумни профил
+                </h1>
+                <p class="page-subtitle">Детайлна информация за възпитаник на университета</p>
+            </div>
+            <div class="col-md-4 text-md-end">
+                <a asp-action="Index" class="btn btn-outline-university">
+                    <i class="fas fa-arrow-left"></i> Към всички алумни
+                </a>
+            </div>
+        </div>
+    </div>
 </div>
-<p>
-    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Редактирай</a> |
-    <a asp-action="Index" class="btn btn-secondary">Назад</a>
-</p>
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="university-card profile-card">
+                <div class="card-header text-center bg-university">
+                    <div class="profile-avatar">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <h3 class="profile-name text-white mb-1">
+                        @($"{Model.FirstName} {Model.Surname} {Model.LastName}")
+                    </h3>
+                    <p class="profile-title text-white-50 mb-0">
+                        @Model.CurrentPosition
+                    </p>
+                </div>
+
+                <div class="card-body">
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="detail-item">
+                                <div class="detail-label">
+                                    <i class="fas fa-id-card text-primary"></i>
+                                    <strong>Факултетен номер</strong>
+                                </div>
+                                <div class="detail-value">@Model.FacultyNumber</div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="detail-item">
+                                <div class="detail-label">
+                                    <i class="fas fa-envelope text-primary"></i>
+                                    <strong>Имейл адрес</strong>
+                                </div>
+                                <div class="detail-value">
+                                    <a href="mailto:@Model.Email" class="email-link">@Model.Email</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="detail-item">
+                                <div class="detail-label">
+                                    <i class="fas fa-graduation-cap text-primary"></i>
+                                    <strong>Факултет</strong>
+                                </div>
+                                <div class="detail-value">
+                                    <span class="badge badge-faculty-large">@((Faculty)Model.Faculty)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="detail-item">
+                                <div class="detail-label">
+                                    <i class="fas fa-book text-primary"></i>
+                                    <strong>Специалност</strong>
+                                </div>
+                                <div class="detail-value">@Model.Degree</div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="detail-item">
+                                <div class="detail-label">
+                                    <i class="fas fa-calendar-alt text-primary"></i>
+                                    <strong>Година на завършване</strong>
+                                </div>
+                                <div class="detail-value">
+                                    <span class="graduation-year-badge">@Model.GraduationYear.Year</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="detail-item">
+                                <div class="detail-label">
+                                    <i class="fas fa-briefcase text-primary"></i>
+                                    <strong>Текуща позиция</strong>
+                                </div>
+                                <div class="detail-value">@Model.CurrentPosition</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer text-center">
+                    <div class="btn-group" role="group">
+                        @if (ViewBag.IsOwnProfile)
+                        {
+                            <a asp-action="Edit" class="btn btn-university-primary">
+                                <i class="fas fa-user-edit"></i> Редактирай моя профил
+                            </a>
+                        }
+                        else if (ViewBag.IsAdmin)
+                        {
+                            <a asp-action="EditUser" asp-route-id="@Model.UserId" class="btn btn-warning">
+                                <i class="fas fa-user-cog"></i> Редактирай (Админ)
+                            </a>
+                        }
+                        <a asp-action="Index" class="btn btn-outline-secondary">
+                            <i class="fas fa-list"></i> Всички алумни
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -142,7 +142,7 @@ namespace AlumniSystem.Areas.Identity.Pages.Account
 
                     await _signInManager.SignInAsync(user, isPersistent: false);
 
-					return LocalRedirect($"/Alumni/Edit?userId={user.Id}");
+					return LocalRedirect("/Alumni/Edit");
                 }
                 foreach (var error in result.Errors)
                 {

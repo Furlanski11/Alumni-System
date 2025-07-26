@@ -1,22 +1,1507 @@
+/* ========================================
+   UNIVERSITY ALUMNI SYSTEM STYLES
+   ======================================== */
+
+/* Base Styles */
 html {
-  font-size: 14px;
+    font-size: 14px;
+    position: relative;
+    min-height: 100%;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
+    html {
+        font-size: 16px;
+    }
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #333;
+}
+
+/* Focus States */
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #4a90e2;
+}
+
+/* ========================================
+   UNIVERSITY NAVBAR STYLES
+   ======================================== */
+
+.university-navbar {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 1rem 0;
+}
+
+.navbar-logo {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.navbar-logo-placeholder {
+    width: 50px;
+    height: 50px;
+    background: #4a90e2;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.navbar-logo-img {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+}
+
+.navbar-brand-text {
+    color: white;
+}
+
+.university-name-nav {
+    font-size: 1.1rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 0;
+}
+
+.university-subtitle-nav {
+    font-size: 0.8rem;
+    opacity: 0.9;
+    margin: 0;
+}
+
+.university-navbar .nav-link {
+    color: rgba(255, 255, 255, 0.9) !important;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+    .university-navbar .nav-link:hover {
+        color: white !important;
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .university-navbar .nav-link i {
+        margin-right: 0.5rem;
+    }
+
+.navbar-logout-btn {
+    color: rgba(255, 255, 255, 0.9) !important;
+    font-weight: 500;
+    padding: 0.5rem 1rem !important;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    border: none !important;
+    background: none !important;
+}
+
+    .navbar-logout-btn:hover {
+        color: white !important;
+        background-color: rgba(255, 255, 255, 0.1) !important;
+        text-decoration: none;
+    }
+
+/* ========================================
+   HERO SECTION STYLES
+   ======================================== */
+
+.hero-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    text-align: center;
+    padding: 4rem 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+    .hero-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60"><g fill-rule="evenodd"><g fill="%23ffffff" fill-opacity="0.05"><polygon points="50 30 60 0 40 0"/><polygon points="50 30 30 60 60 60"/></g></g></svg>') repeat;
+    }
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.hero-logo {
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: center;
+}
+
+.hero-logo-placeholder {
+    width: 120px;
+    height: 120px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 2rem;
+    font-weight: bold;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.hero-subtitle {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    opacity: 0.9;
+}
+
+.hero-description {
+    font-size: 1.2rem;
+    margin-bottom: 2.5rem;
+    opacity: 0.9;
+}
+
+.hero-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn-hero-primary {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    padding: 1rem 2rem;
+    font-weight: 600;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+    .btn-hero-primary:hover {
+        background: rgba(255, 255, 255, 0.3);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    }
+
+.btn-hero-secondary {
+    background: transparent;
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    padding: 1rem 2rem;
+    font-weight: 600;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+}
+
+    .btn-hero-secondary:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+        transform: translateY(-2px);
+    }
+
+/* ========================================
+   SECTIONS STYLES
+   ======================================== */
+
+.dashboard-section, .features-section {
+    padding: 4rem 0;
+    background: #f8f9fa;
+}
+
+.stats-section {
+    padding: 4rem 0;
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    color: white;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.section-subtitle {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 3rem;
+    text-align: center;
+}
+
+/* ========================================
+   FEATURE CARDS STYLES
+   ======================================== */
+
+.feature-card {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    height: 100%;
+    border: 1px solid #e9ecef;
+}
+
+    .feature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    }
+
+.feature-icon {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem auto;
+    font-size: 1.8rem;
+    color: white;
+}
+
+.profile-card .feature-icon {
+    background: linear-gradient(135deg, #4a90e2, #357abd);
+}
+
+.community-card .feature-icon {
+    background: linear-gradient(135deg, #5cb85c, #449d44);
+}
+
+.events-card .feature-icon {
+    background: linear-gradient(135deg, #f0ad4e, #ec971f);
+}
+
+.jobs-card .feature-icon {
+    background: linear-gradient(135deg, #5bc0de, #31b0d5);
+}
+
+.alumni-card .feature-icon {
+    background: linear-gradient(135deg, #d9534f, #c9302c);
+}
+
+.admin-card .feature-icon {
+    background: linear-gradient(135deg, #6f42c1, #5a32a3);
+}
+
+.feature-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.feature-description {
+    color: #666;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    line-height: 1.6;
+}
+
+.btn-feature {
+    background: #4a90e2;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: block;
+    width: 100%;
+    text-align: center;
+    text-decoration: none;
+}
+
+    .btn-feature:hover {
+        background: #357abd;
+        color: white;
+        transform: translateY(-2px);
+    }
+
+.btn-feature-admin {
+    background: #6f42c1;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: block;
+    width: 100%;
+    text-align: center;
+    text-decoration: none;
+}
+
+    .btn-feature-admin:hover {
+        background: #5a32a3;
+        color: white;
+        transform: translateY(-2px);
+    }
+
+/* ========================================
+   INFO CARDS STYLES
+   ======================================== */
+
+.info-card {
+    text-align: center;
+    padding: 2rem 1rem;
+    height: 100%;
+}
+
+.info-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem auto;
+    font-size: 2rem;
+    color: white;
+}
+
+.info-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 1rem;
+}
+
+.info-description {
+    color: #666;
+    line-height: 1.6;
+}
+
+/* ========================================
+   STATS SECTION STYLES
+   ======================================== */
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-number {
+    font-size: 3rem;
+    font-weight: 700;
+    color: #4a90e2;
+    margin-bottom: 0.5rem;
+}
+
+.stat-label {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 500;
+}
+
+/* ========================================
+   FOOTER STYLES
+   ======================================== */
+
+.university-footer {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    color: white;
+    padding: 3rem 0 1rem 0;
+}
+
+.footer-brand {
+    margin-bottom: 1.5rem;
+}
+
+.footer-logo {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.footer-logo-placeholder {
+    width: 60px;
+    height: 60px;
+    background: #4a90e2;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.footer-university-name {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+
+.footer-university-subtitle {
+    font-size: 1rem;
+    font-weight: 600;
+    opacity: 0.9;
+}
+
+.footer-description {
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.6;
+    margin-bottom: 0;
+}
+
+.footer-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #4a90e2;
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+    .footer-links li {
+        margin-bottom: 0.5rem;
+    }
+
+    .footer-links a {
+        color: rgba(255, 255, 255, 0.8);
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+.footer-divider {
+    border-color: rgba(255, 255, 255, 0.2);
+    margin: 2rem 0 1rem 0;
+}
+
+.footer-copyright, .footer-year {
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2.5rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1.2rem;
+    }
+
+    .hero-description {
+        font-size: 1rem;
+    }
+
+    .hero-logo-placeholder {
+        width: 100px;
+        height: 100px;
+        font-size: 1.5rem;
+    }
+
+    .hero-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .btn-hero-primary, .btn-hero-secondary {
+        width: 100%;
+        max-width: 300px;
+    }
+
+    .section-title {
+        font-size: 2rem;
+    }
+
+    .section-subtitle {
+        font-size: 1rem;
+    }
+
+    .stat-number {
+        font-size: 2.5rem;
+    }
+
+    .university-name-nav {
+        font-size: 0.9rem;
+    }
+
+    .university-subtitle-nav {
+        font-size: 0.7rem;
+    }
+
+    .navbar-logo-placeholder {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero-section {
+        padding: 3rem 1rem;
+    }
+
+    .dashboard-section, .features-section {
+        padding: 3rem 0;
+    }
+
+    .stats-section {
+        padding: 3rem 0;
+    }
+
+    .feature-card {
+        padding: 1.5rem;
+    }
+
+    .hero-actions .btn {
+        padding: 0.75rem 1.5rem;
+    }
+}
+
+/* ========================================
+   UNIVERSITY VIEWS STYLES
+   ======================================== */
+
+/* Page Headers */
+.university-page-header {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    color: white;
+    padding: 3rem 0;
+    margin-bottom: 0;
+}
+
+.page-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+    .page-title i {
+        margin-right: 1rem;
+    }
+
+.page-subtitle {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    margin-bottom: 0;
+}
+
+/* University Cards */
+.university-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e9ecef;
+    overflow: hidden;
+}
+
+    .university-card .card-header {
+        background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+        color: white;
+        padding: 1.5rem;
+        border-bottom: none;
+    }
+
+    .university-card .card-body {
+        padding: 2rem;
+    }
+
+    .university-card .card-footer {
+        background: #f8f9fa;
+        border-top: 1px solid #e9ecef;
+        padding: 1.5rem;
+    }
+
+.bg-university {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%) !important;
+}
+
+/* University Buttons */
+.btn-university-primary {
+    background: linear-gradient(135deg, #4a90e2, #357abd);
+    border: none;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+    .btn-university-primary:hover {
+        background: linear-gradient(135deg, #357abd, #2c5aa0);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
+    }
+
+.btn-outline-university {
+    background: transparent;
+    border: 2px solid #4a90e2;
+    color: #4a90e2;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+    .btn-outline-university:hover {
+        background: #4a90e2;
+        color: white;
+        transform: translateY(-2px);
+    }
+
+.btn-group-university {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Tables */
+.alumni-table {
+    font-size: 0.95rem;
+}
+
+    .alumni-table th {
+        font-weight: 600;
+        border-bottom: 2px solid #dee2e6;
+        padding: 1rem 0.75rem;
+        vertical-align: middle;
+    }
+
+    .alumni-table td {
+        padding: 1rem 0.75rem;
+        vertical-align: middle;
+    }
+
+.table-university {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    color: white;
+}
+
+    .table-university th {
+        border-bottom: none;
+        font-weight: 600;
+    }
+
+.alumni-name strong {
+    color: #2c3e50;
+}
+
+.faculty-number {
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    color: #4a90e2;
+}
+
+.graduation-year {
+    font-weight: 600;
+    color: #666;
+}
+
+.email-link {
+    color: #4a90e2;
+    text-decoration: none;
+}
+
+    .email-link:hover {
+        color: #357abd;
+        text-decoration: underline;
+    }
+
+/* Badges */
+.badge-university {
+    background: #4a90e2;
+    color: white;
+    padding: 0.5rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.badge-faculty {
+    background: linear-gradient(135deg, #5cb85c, #449d44);
+    color: white;
+    padding: 0.4rem 0.8rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.badge-faculty-large {
+    background: linear-gradient(135deg, #5cb85c, #449d44);
+    color: white;
+    padding: 0.6rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.graduation-year-badge {
+    background: #f8f9fa;
+    color: #4a90e2;
+    padding: 0.4rem 0.8rem;
+    border-radius: 15px;
+    font-weight: 600;
+    border: 2px solid #4a90e2;
+}
+
+/* Profile Cards */
+.profile-card .card-header {
+    padding: 3rem 2rem 2rem 2rem;
+}
+
+.profile-avatar {
+    width: 100px;
+    height: 100px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem auto;
+    font-size: 3rem;
+    color: white;
+    backdrop-filter: blur(10px);
+    border: 3px solid rgba(255, 255, 255, 0.3);
+}
+
+.profile-name {
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.profile-title {
+    font-size: 1.1rem;
+}
+
+.detail-item {
+    margin-bottom: 1.5rem;
+}
+
+.detail-label {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.detail-value {
+    font-size: 1.1rem;
+    color: #2c3e50;
+    font-weight: 500;
+}
+
+/* Forms */
+.form-card {
+    margin-bottom: 2rem;
+}
+
+.form-section {
+    margin-bottom: 2.5rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #e9ecef;
+}
+
+    .form-section:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+    }
+
+.form-section-header {
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #4a90e2;
+}
+
+    .form-section-header h6 {
+        color: #2c3e50;
+        font-weight: 600;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+.university-form .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.university-form .form-label {
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.university-input, .university-select {
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+    .university-input:focus, .university-select:focus {
+        border-color: #4a90e2;
+        box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+        outline: none;
+    }
+
+/* Alerts */
+.alert-university {
+    border-radius: 8px;
+    border: none;
+    padding: 1rem 1.5rem;
+}
+
+    .alert-university i {
+        margin-right: 0.5rem;
+    }
+
+/* Pagination */
+.pagination-university .page-link {
+    color: #4a90e2;
+    border: 1px solid #4a90e2;
+    padding: 0.5rem 1rem;
+    margin: 0 0.25rem;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+    .pagination-university .page-link:hover {
+        background: #4a90e2;
+        color: white;
+        transform: translateY(-1px);
+    }
+
+.pagination-university .page-item.active .page-link {
+    background: #4a90e2;
+    border-color: #4a90e2;
+    color: white;
+}
+
+.pagination-university .page-item.disabled .page-link {
+    color: #6c757d;
+    border-color: #dee2e6;
+    background: #f8f9fa;
+}
+
+/* Button Groups */
+.btn-group .btn-sm {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.875rem;
+    border-radius: 4px;
+}
+
+.btn-group .btn:not(:last-child) {
+    margin-right: 0.25rem;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .university-page-header {
+        padding: 2rem 0;
+    }
+
+    .page-title {
+        font-size: 2rem;
+    }
+
+    .page-subtitle {
+        font-size: 1rem;
+    }
+
+    .university-card .card-body {
+        padding: 1.5rem;
+    }
+
+    .university-card .card-footer {
+        padding: 1rem;
+    }
+
+    .btn-group-university {
+        flex-direction: column;
+    }
+
+        .btn-group-university .btn {
+            margin-bottom: 0.5rem;
+        }
+
+    .profile-avatar {
+        width: 80px;
+        height: 80px;
+        font-size: 2.5rem;
+    }
+
+    .profile-name {
+        font-size: 1.5rem;
+    }
+}
+
+/* ========================================
+   COMMUNITY & EVENT SPECIFIC STYLES
+   ======================================== */
+
+/* Community Table Styles */
+.community-table {
+    font-size: 0.95rem;
+}
+
+.community-name strong {
+    color: #2c3e50;
+}
+
+.community-description {
+    color: #666;
+    max-width: 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.badge-community-members {
+    background: linear-gradient(135deg, #5cb85c, #449d44);
+    color: white;
+    padding: 0.4rem 0.8rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+/* Event Table Styles */
+.events-table {
+    font-size: 0.95rem;
+}
+
+.event-title strong {
+    color: #2c3e50;
+}
+
+.event-upcoming {
+    background-color: rgba(92, 184, 92, 0.05);
+}
+
+.event-past {
+    background-color: rgba(108, 117, 125, 0.05);
+}
+
+.event-date, .event-location {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #666;
+}
+
+.badge-event-upcoming {
+    background: linear-gradient(135deg, #5cb85c, #449d44);
+    color: white;
+    padding: 0.25rem 0.6rem;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.badge-event-past {
+    background: linear-gradient(135deg, #6c757d, #495057);
+    color: white;
+    padding: 0.25rem 0.6rem;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+/* Responsive adjustments for tables */
+@media (max-width: 768px) {
+    .community-description {
+        max-width: 200px;
+    }
+
+    .event-date, .event-location {
+        font-size: 0.9rem;
+    }
+
+    .badge-event-upcoming, .badge-event-past {
+        font-size: 0.6rem;
+        padding: 0.2rem 0.4rem;
+    }
+
+    * Job Posting Table Styles */
+    .job-posting-table {
+        font-size: 0.95rem;
+    }
+
+    .job-title strong {
+        color: #2c3e50;
+    }
+
+    .job-freshness {
+        margin-top: 0.5rem;
+    }
+
+    .company-info, .job-location, .posted-date {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: #666;
+    }
+
+        .company-info strong {
+            color: #2c3e50;
+        }
+
+    /* Job Freshness Badges */
+    .badge-job-new {
+        background: linear-gradient(135deg, #28a745, #20c997);
+        color: white;
+        padding: 0.25rem 0.6rem;
+        border-radius: 12px;
+        font-size: 0.7rem;
+        font-weight: 500;
+        text-transform: uppercase;
+    }
+
+    .badge-job-recent {
+        background: linear-gradient(135deg, #17a2b8, #138496);
+        color: white;
+        padding: 0.25rem 0.6rem;
+        border-radius: 12px;
+        font-size: 0.7rem;
+        font-weight: 500;
+        text-transform: uppercase;
+    }
+
+    .badge-job-new-large {
+        background: linear-gradient(135deg, #28a745, #20c997);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+
+    .badge-job-recent-large {
+        background: linear-gradient(135deg, #17a2b8, #138496);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+
+    .badge-job-old-large {
+        background: linear-gradient(135deg, #6c757d, #495057);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+
+    /* Job Posting Profile Card */
+    .job-posting-card .card-header {
+        padding: 3rem 2rem 2rem 2rem;
+    }
+
+    .job-icon {
+        width: 100px;
+        height: 100px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem auto;
+        font-size: 3rem;
+        color: white;
+        backdrop-filter: blur(10px);
+        border: 3px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .job-name {
+        font-size: 1.8rem;
+        font-weight: 700;
+    }
+
+    .job-company {
+        font-size: 1.1rem;
+    }
+
+    .job-freshness-header {
+        margin-top: 1rem;
+    }
+
+    .posted-date-badge {
+        background: #f8f9fa;
+        color: #4a90e2;
+        padding: 0.4rem 0.8rem;
+        border-radius: 15px;
+        font-weight: 600;
+        border: 2px solid #4a90e2;
+    }
+
+    .job-description {
+        background: #f8f9fa;
+        padding: 1.5rem;
+        border-radius: 8px;
+        border-left: 4px solid #4a90e2;
+        line-height: 1.7;
+        color: #444;
+    }
+
+    /* Empty State Styles */
+    .empty-state {
+        color: #6c757d;
+    }
+
+        .empty-state i {
+            opacity: 0.5;
+        }
+
+        .empty-state h5 {
+            margin-bottom: 1rem;
+            color: #6c757d;
+        }
+
+        .empty-state p {
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+        }
+
+    /* Responsive adjustments for job postings */
+    @media (max-width: 768px) {
+        .company-info, .job-location, .posted-date {
+            font-size: 0.9rem;
+        }
+
+        .job-freshness {
+            margin-top: 0.25rem;
+        }
+
+        .badge-job-new, .badge-job-recent {
+            font-size: 0.6rem;
+            padding: 0.2rem 0.4rem;
+        }
+
+        .job-icon {
+            width: 80px;
+            height: 80px;
+            font-size: 2.5rem;
+        }
+
+        .job-name {
+            font-size: 1.5rem;
+        }
+
+        .job-description {
+            padding: 1rem;
+        }
+    }
+
+    /* ========================================
+   DELETE CONFIRMATION STYLES
+   ======================================== */
+
+    /* Delete Confirmation Card */
+    .delete-confirmation-card .card-header {
+        padding: 3rem 2rem 2rem 2rem;
+        background: linear-gradient(135deg, #ffc107, #e0a800) !important;
+    }
+
+    .warning-icon {
+        width: 100px;
+        height: 100px;
+        background: rgba(0, 0, 0, 0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem auto;
+        font-size: 3rem;
+        color: #212529;
+        border: 3px solid rgba(0, 0, 0, 0.2);
+    }
+
+    .warning-title {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #212529 !important;
+    }
+
+    .warning-subtitle {
+        font-size: 1.1rem;
+        color: #495057 !important;
+    }
+
+    .delete-warning {
+        background: #f8d7da;
+        border: 1px solid #f5c6cb;
+        border-radius: 8px;
+        padding: 2rem;
+    }
+
+        .delete-warning h5 {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .delete-warning p {
+            font-size: 1rem;
+            margin-bottom: 0;
+        }
+
+    /* Job Details Preview */
+    .job-details-preview {
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 1.5rem;
+        border-left: 4px solid #4a90e2;
+    }
+
+    .preview-title {
+        color: #2c3e50;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .preview-card {
+        background: white;
+        border-radius: 8px;
+        padding: 1.5rem;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .job-title-delete {
+        font-weight: 700;
+        color: #dc3545;
+        font-size: 1.1rem;
+    }
+
+    .job-description-preview {
+        background: #f8f9fa;
+        padding: 1rem;
+        border-radius: 6px;
+        border-left: 3px solid #6c757d;
+        color: #555;
+        line-height: 1.6;
+    }
+
+    /* Delete Actions */
+    .delete-actions {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .delete-confirm-btn {
+        background: linear-gradient(135deg, #dc3545, #c82333);
+        border: none;
+        padding: 0.75rem 2rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .delete-confirm-btn:hover {
+            background: linear-gradient(135deg, #c82333, #bd2130);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+        }
+
+        .delete-confirm-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .delete-confirm-btn:hover::before {
+            left: 100%;
+        }
+
+    /* Responsive adjustments for delete page */
+    @media (max-width: 768px) {
+        .delete-confirmation-card .card-header {
+            padding: 2rem 1.5rem 1.5rem 1.5rem;
+        }
+
+        .warning-icon {
+            width: 80px;
+            height: 80px;
+            font-size: 2.5rem;
+        }
+
+        .warning-title {
+            font-size: 1.5rem;
+        }
+
+        .delete-warning {
+            padding: 1.5rem;
+        }
+
+            .delete-warning h5 {
+                font-size: 1.1rem;
+            }
+
+        .job-details-preview {
+            padding: 1rem;
+        }
+
+        .preview-card {
+            padding: 1rem;
+        }
+
+        .delete-actions {
+            flex-direction: column;
+        }
+
+            .delete-actions .btn {
+                margin-bottom: 0.5rem;
+            }
+    }
+
+    /* ========================================
+   COMMUNITY & EVENT FORM STYLES
+   ======================================== */
+
+    /* Stats Preview Styles */
+    .stats-preview {
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 1rem;
+        border-left: 4px solid #4a90e2;
+    }
+
+    .stat-item-inline {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 1rem;
+        color: #2c3e50;
+    }
+
+        .stat-item-inline i {
+            font-size: 1.2rem;
+        }
+
+        .stat-item-inline strong {
+            font-size: 1.1rem;
+            color: #4a90e2;
+        }
+
+    /* Event Status Preview */
+    .event-status-preview {
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 1rem;
+        border-left: 4px solid #4a90e2;
+        text-align: center;
+    }
+
+    /* Form Text Styles */
+    .form-text.text-warning {
+        color: #e67e22 !important;
+        font-weight: 500;
+    }
+
+        .form-text.text-warning i {
+            margin-right: 0.25rem;
+        }
+
+    /* Enhanced Form Groups */
+    .university-form .form-group {
+        position: relative;
+    }
+
+        .university-form .form-group .form-text {
+            margin-top: 0.5rem;
+            font-size: 0.875rem;
+            line-height: 1.4;
+        }
+
+            .university-form .form-group .form-text i {
+                margin-right: 0.25rem;
+                opacity: 0.7;
+            }
+
+    /* Responsive adjustments for Community/Event forms */
+    @media (max-width: 768px) {
+        .stats-preview, .event-status-preview {
+            padding: 0.75rem;
+        }
+
+        .stat-item-inline {
+            font-size: 0.9rem;
+            flex-wrap: wrap;
+        }
+
+            .stat-item-inline strong {
+                font-size: 1rem;
+            }
+    }
 }

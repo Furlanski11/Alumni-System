@@ -1,23 +1,124 @@
-﻿@model AlumniSystem.Core.ViewModels.AlumniViewModel
+﻿@using AlumniSystem.Infrastructure.Models.Enums
+@model AlumniSystem.Core.ViewModels.AlumniViewModel
 @{
-    ViewData["Title"] = "Изтрии потребител";
+    ViewData["Title"] = "Изтриване на алумни профил";
 }
-<h2>@ViewData["Title"]</h2>
-<h3>Сигурни ли сте, че искате да изтриете?</h3>
-<div>
-    <h4>Alumni</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">Факултетен номер</dt>
-        <dd class="col-sm-10">@Model.FacultyNumber</dd>
-        <dt class="col-sm-2">Име</dt>
-        <dd class="col-sm-10">@($"{Model.FirstName} {Model.Surname} {Model.LastName}")</dd>
-        <dt class="col-sm-2">Факултет</dt>
-        <dd class="col-sm-10">@((AlumniSystem.Infrastructure.Models.Enums.Faculty)Model.Faculty)</dd>
-    </dl>
-    <form asp-action="DeleteConfirmed" method="post">
-        <input type="hidden" asp-for="Id" />
-        <button type="submit" class="btn btn-danger">Изтрии</button>
-        <a asp-action="Index" class="btn btn-secondary">Отказ</a>
-    </form>
+
+<div class="university-page-header">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h1 class="page-title">
+                    <i class="fas fa-exclamation-triangle text-warning"></i>
+                    Изтриване на алумни профил
+                </h1>
+                <p class="page-subtitle">Потвърждение за премахване на профил от системата</p>
+            </div>
+            <div class="col-md-4 text-md-end">
+                <a asp-action="Index" class="btn btn-outline-university">
+                    <i class="fas fa-arrow-left"></i> Назад
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="university-card delete-confirmation-card">
+                <div class="card-header text-center bg-warning">
+                    <div class="warning-icon">
+                        <i class="fas fa-user-times"></i>
+                    </div>
+                    <h3 class="warning-title text-dark mb-1">
+                        Критично действие!
+                    </h3>
+                    <p class="warning-subtitle text-dark mb-0">
+                        Изтриването е необратимо
+                    </p>
+                </div>
+
+                <div class="card-body">
+                    <div class="delete-warning text-center mb-4">
+                        <h5 class="text-danger mb-3">
+                            <i class="fas fa-question-circle"></i>
+                            Сигурни ли сте, че искате да изтриете този алумни профил?
+                        </h5>
+                        <p class="text-muted">
+                            След изтриването, цялата информация и връзки с общности ще бъдат загубени завинаги.
+                        </p>
+                    </div>
+
+                    <div class="job-details-preview">
+                        <h6 class="preview-title">
+                            <i class="fas fa-user-graduate"></i> Преглед на профила за изтриване:
+                        </h6>
+
+                        <div class="preview-card">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="detail-item">
+                                        <div class="detail-label">
+                                            <i class="fas fa-id-card text-primary"></i>
+                                            <strong>Факултетен номер</strong>
+                                        </div>
+                                        <div class="detail-value">@Model.FacultyNumber</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="detail-item">
+                                        <div class="detail-label">
+                                            <i class="fas fa-user text-primary"></i>
+                                            <strong>Пълно име</strong>
+                                        </div>
+                                        <div class="detail-value job-title-delete">
+                                            @($"{Model.FirstName} {Model.Surname} {Model.LastName}")
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="detail-item">
+                                        <div class="detail-label">
+                                            <i class="fas fa-graduation-cap text-primary"></i>
+                                            <strong>Факултет</strong>
+                                        </div>
+                                        <div class="detail-value">
+                                            <span class="badge badge-faculty-large">@((Faculty)Model.Faculty)</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="detail-item">
+                                        <div class="detail-label">
+                                            <i class="fas fa-envelope text-primary"></i>
+                                            <strong>Имейл</strong>
+                                        </div>
+                                        <div class="detail-value">@Model.Email</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer text-center">
+                    <form asp-action="DeleteConfirmed" method="post" class="d-inline">
+                        <input type="hidden" asp-for="Id" />
+                        <div class="btn-group-university delete-actions" role="group">
+                            <button type="submit" class="btn btn-danger btn-lg delete-confirm-btn">
+                                <i class="fas fa-user-times"></i> Да, изтрий профила завинаги
+                            </button>
+                            <a asp-action="Index" class="btn btn-outline-secondary btn-lg">
+                                <i class="fas fa-times"></i> Не, върни ме назад
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

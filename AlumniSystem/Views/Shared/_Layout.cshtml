@@ -1,51 +1,120 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="bg">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - AlumniSystem</title>
+    <title>@ViewData["Title"] - Пловдивски Университет - Alumni System</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/AlumniSystem.styles.css" asp-append-version="true" />
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">AlumniSystem</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+        <nav class="navbar navbar-expand-lg navbar-dark university-navbar">
+            <div class="container">
+                <a class="navbar-brand d-flex align-items-center" asp-area="" asp-controller="Home" asp-action="Index">
+                    <div class="navbar-logo me-3">
+                        <img src="~/images/puLoginPic.png" alt="University Logo" class="navbar-logo-img" />
+                    </div>
+                    <div class="navbar-brand-text">
+                        <div class="university-name-nav">ПЛОВДИВСКИ УНИВЕРСИТЕТ</div>
+                        <div class="university-subtitle-nav">Alumni System</div>
+                    </div>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Alumni" asp-action="Index">Потребители</a>
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">
+                                <i class="fas fa-home"></i> Начало
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Community" asp-action="Index">Общности</a>
+                            <a class="nav-link" asp-area="" asp-controller="Alumni" asp-action="Index">
+                                <i class="fas fa-users"></i> Алумни
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Event" asp-action="Index">Събития</a>
+                            <a class="nav-link" asp-area="" asp-controller="Community" asp-action="Index">
+                                <i class="fas fa-user-friends"></i> Общности
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="JobPosting" asp-action="Index">Обяви</a>
+                            <a class="nav-link" asp-area="" asp-controller="Event" asp-action="Index">
+                                <i class="fas fa-calendar-alt"></i> Събития
+                            </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="JobPosting" asp-action="Index">
+                                <i class="fas fa-briefcase"></i> Работни позиции
+                            </a>
+                        </li>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Alumni" asp-action="MyProfile">
+                                    <i class="fas fa-user-edit"></i> Моят профил
+                                </a>
+                            </li>
+                        }
                     </ul>
-                    <partial name="_LoginPartial" />
+                    <div class="navbar-nav">
+                        <partial name="_LoginPartial" />
+                    </div>
                 </div>
             </div>
         </nav>
     </header>
     <div class="container">
         <main role="main" class="pb-3">
+            <partial name="_StatusMessages" />
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="university-footer mt-5">
         <div class="container">
-            &copy; 2025 - AlumniSystem - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="footer-brand d-flex align-items-center mb-3">
+                        <div class="footer-logo me-3">
+                            <img src="~/images/puLoginPic.png" alt="University Logo" class="navbar-logo-img" />
+                        </div>
+                        <div>
+                            <div class="footer-university-name">ПЛОВДИВСКИ УНИВЕРСИТЕТ</div>
+                            <div class="footer-university-subtitle">ПАИСИЙ ХИЛЕНДАРСКИ</div>
+                        </div>
+                    </div>
+                    <p class="footer-description">
+                        Alumni System свързва възпитаниците на Пловдивския университет "Паисий Хилендарски"
+                        в единна общност за споделяне на знания, опит и възможности.
+                    </p>
+                </div>
+                <div class="col-md-4">
+                    <h6 class="footer-title">Полезни връзки</h6>
+                    <ul class="footer-links">
+                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Начало</a></li>
+                        <li><a asp-area="" asp-controller="Alumni" asp-action="Index">Алумни</a></li>
+                        <li><a asp-area="" asp-controller="Community" asp-action="Index">Общности</a></li>
+                        <li><a asp-area="" asp-controller="Event" asp-action="Index">Събития</a></li>
+                        <li><a asp-area="" asp-controller="Home" asp-action="Privacy">Политика за поверителност</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="footer-divider">
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="footer-copyright">&copy; 2025 Пловдивски университет "Паисий Хилендарски". Всички права запазени.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="footer-year">Основан 1961</p>
+                </div>
+            </div>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

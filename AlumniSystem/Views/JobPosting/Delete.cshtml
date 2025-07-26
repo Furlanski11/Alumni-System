@@ -1,25 +1,141 @@
 ﻿@model AlumniSystem.Core.ViewModels.JobPostingViewModel
-
 @{
-    ViewData["Title"] = "Изтриване на обява";
+    ViewData["Title"] = "Изтриване на работна позиция";
 }
 
-<h1>@ViewData["Title"]</h1>
-<h3>Сигурни ли сте, че искате да изтриете тази обява?</h3>
+<div class="university-page-header">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h1 class="page-title">
+                    <i class="fas fa-exclamation-triangle text-warning"></i>
+                    Изтриване на позиция
+                </h1>
+                <p class="page-subtitle">Потвърждение за премахване на работна позиция</p>
+            </div>
+            <div class="col-md-4 text-md-end">
+                <a asp-action="Index" class="btn btn-outline-university">
+                    <i class="fas fa-arrow-left"></i> Назад
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
 
-<dl class="row">
-    <dt class="col-sm-2">Заглавие</dt>
-    <dd class="col-sm-10">@Model.Title</dd>
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="university-card delete-confirmation-card">
+                <div class="card-header text-center bg-warning">
+                    <div class="warning-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <h3 class="warning-title text-dark mb-1">
+                        Внимание!
+                    </h3>
+                    <p class="warning-subtitle text-dark mb-0">
+                        Това действие е необратимо
+                    </p>
+                </div>
 
-    <dt class="col-sm-2">Компания</dt>
-    <dd class="col-sm-10">@Model.Company</dd>
+                <div class="card-body">
+                    <div class="delete-warning text-center mb-4">
+                        <h5 class="text-danger mb-3">
+                            <i class="fas fa-question-circle"></i>
+                            Сигурни ли сте, че искате да изтриете тази работна позиция?
+                        </h5>
+                        <p class="text-muted">
+                            След изтриването, информацията няма да може да бъде възстановена.
+                        </p>
+                    </div>
 
-    <dt class="col-sm-2">Дата</dt>
-    <dd class="col-sm-10">@Model.PostedOn:yyyy-MM-dd</dd>
-</dl>
+                    <div class="job-details-preview">
+                        <h6 class="preview-title">
+                            <i class="fas fa-eye"></i> Преглед на позицията за изтриване:
+                        </h6>
 
-<form asp-action="Delete" method="post">
-    <input type="hidden" asp-for="Id" />
-    <button type="submit" class="btn btn-danger">Да, изтрий</button>
-    <a asp-action="Index" class="btn btn-link">Не, върни ме назад</a>
-</form>
+                        <div class="preview-card">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="detail-item">
+                                        <div class="detail-label">
+                                            <i class="fas fa-heading text-primary"></i>
+                                            <strong>Заглавие</strong>
+                                        </div>
+                                        <div class="detail-value job-title-delete">@Model.Title</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="detail-item">
+                                        <div class="detail-label">
+                                            <i class="fas fa-building text-primary"></i>
+                                            <strong>Компания</strong>
+                                        </div>
+                                        <div class="detail-value">@Model.Company</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="detail-item">
+                                        <div class="detail-label">
+                                            <i class="fas fa-map-marker-alt text-primary"></i>
+                                            <strong>Локация</strong>
+                                        </div>
+                                        <div class="detail-value">@Model.Location</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="detail-item">
+                                        <div class="detail-label">
+                                            <i class="fas fa-calendar-plus text-primary"></i>
+                                            <strong>Публикувана</strong>
+                                        </div>
+                                        <div class="detail-value">
+                                            <span class="posted-date-badge">@Model.PostedOn.ToString("dd.MM.yyyy")</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                @if (!string.IsNullOrEmpty(Model.Description))
+                                {
+                                    <div class="col-12">
+                                        <div class="detail-item">
+                                            <div class="detail-label">
+                                                <i class="fas fa-file-alt text-primary"></i>
+                                                <strong>Описание</strong>
+                                            </div>
+                                            <div class="detail-value job-description-preview">
+                                                @{
+                                                    var shortDescription = Model.Description.Length > 150
+                                                    ? Model.Description.Substring(0, 150) + "..."
+                                                    : Model.Description;
+                                                }
+                                                @Html.Raw(shortDescription.Replace("\n", "<br/>"))
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer text-center">
+                    <form asp-action="Delete" method="post" class="d-inline">
+                        <input type="hidden" asp-for="Id" />
+                        <div class="btn-group-university delete-actions" role="group">
+                            <button type="submit" class="btn btn-danger btn-lg delete-confirm-btn">
+                                <i class="fas fa-trash"></i> Да, изтрий завинаги
+                            </button>
+                            <a asp-action="Index" class="btn btn-outline-secondary btn-lg">
+                                <i class="fas fa-times"></i> Не, върни ме назад
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

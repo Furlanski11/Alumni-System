@@ -1,16 +1,150 @@
 ﻿@model AlumniSystem.Core.ViewModels.EventViewModel
-<h1>Изтриване на събитие</h1>
-<h3>Сигурни ли сте, че искате да изтриете това събитие?</h3>
-<dl class="row">
-	<dt class="col-sm-2">Заглавие</dt>
-	<dd class="col-sm-10">@Model.Title</dd>
-	<dt class="col-sm-2">Дата</dt>
-	<dd class="col-sm-10">@Model.Date:yyyy-MM-dd</dd>
-	<dt class="col-sm-2">Локация</dt>
-	<dd class="col-sm-10">@Model.Location</dd>
-</dl>
-<form asp-action="Delete" method="post">
-	<input type="hidden" asp-for="Id" />
-	<button type="submit" class="btn btn-danger">Да, изтрий</button>
-	<a asp-action="Index" class="btn btn-secondary">Не, върни ме назад</a>
-</form>
+@{
+    ViewData["Title"] = "Изтриване на събитие";
+}
+
+<div class="university-page-header">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h1 class="page-title">
+                    <i class="fas fa-exclamation-triangle text-warning"></i>
+                    Изтриване на събитие
+                </h1>
+                <p class="page-subtitle">Потвърждение за премахване на алумни събитие</p>
+            </div>
+            <div class="col-md-4 text-md-end">
+                <a asp-action="Index" class="btn btn-outline-university">
+                    <i class="fas fa-arrow-left"></i> Назад
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="university-card delete-confirmation-card">
+                <div class="card-header text-center bg-warning">
+                    <div class="warning-icon">
+                        <i class="fas fa-calendar-times"></i>
+                    </div>
+                    <h3 class="warning-title text-dark mb-1">
+                        Внимание!
+                    </h3>
+                    <p class="warning-subtitle text-dark mb-0">
+                        Това действие е необратимо
+                    </p>
+                </div>
+
+                <div class="card-body">
+                    <div class="delete-warning text-center mb-4">
+                        <h5 class="text-danger mb-3">
+                            <i class="fas fa-question-circle"></i>
+                            Сигурни ли сте, че искате да изтриете това събитие?
+                        </h5>
+                        <p class="text-muted">
+                            След изтриването, информацията за събитието ще бъде загубена завинаги.
+                        </p>
+                    </div>
+
+                    <div class="job-details-preview">
+                        <h6 class="preview-title">
+                            <i class="fas fa-calendar-alt"></i> Преглед на събитието за изтриване:
+                        </h6>
+
+                        <div class="preview-card">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="detail-item">
+                                        <div class="detail-label">
+                                            <i class="fas fa-heading text-primary"></i>
+                                            <strong>Заглавие</strong>
+                                        </div>
+                                        <div class="detail-value job-title-delete">@Model.Title</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="detail-item">
+                                        <div class="detail-label">
+                                            <i class="fas fa-clock text-primary"></i>
+                                            <strong>Дата и час</strong>
+                                        </div>
+                                        <div class="detail-value">
+                                            <span class="posted-date-badge">@Model.Date.ToString("dd.MM.yyyy HH:mm")</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="detail-item">
+                                        <div class="detail-label">
+                                            <i class="fas fa-map-marker-alt text-primary"></i>
+                                            <strong>Локация</strong>
+                                        </div>
+                                        <div class="detail-value">@Model.Location</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="detail-item">
+                                        <div class="detail-label">
+                                            <i class="fas fa-calendar-check text-primary"></i>
+                                            <strong>Статус</strong>
+                                        </div>
+                                        <div class="detail-value">
+                                            @if (Model.Date >= DateTime.Now)
+                                            {
+                                                <span class="badge badge-event-upcoming">Предстоящо</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge badge-event-past">Минало</span>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+
+                                @if (!string.IsNullOrEmpty(Model.Description))
+                                {
+                                    <div class="col-12">
+                                        <div class="detail-item">
+                                            <div class="detail-label">
+                                                <i class="fas fa-info-circle text-primary"></i>
+                                                <strong>Описание</strong>
+                                            </div>
+                                            <div class="detail-value job-description-preview">
+                                                @{
+                                                    var shortDescription = Model.Description.Length > 150
+                                                    ? Model.Description.Substring(0, 150) + "..."
+                                                    : Model.Description;
+                                                }
+                                                @Html.Raw(shortDescription.Replace("\n", "<br/>"))
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer text-center">
+                    <form asp-action="Delete" method="post" class="d-inline">
+                        <input type="hidden" asp-for="Id" />
+                        <div class="btn-group-university delete-actions" role="group">
+                            <button type="submit" class="btn btn-danger btn-lg delete-confirm-btn">
+                                <i class="fas fa-calendar-times"></i> Да, изтрий събитието завинаги
+                            </button>
+                            <a asp-action="Index" class="btn btn-outline-secondary btn-lg">
+                                <i class="fas fa-times"></i> Не, върни ме назад
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

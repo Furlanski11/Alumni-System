@@ -1,40 +1,127 @@
 ﻿@model AlumniSystem.Core.ViewModels.JobPostingViewModel
-
 @{
-    ViewData["Title"] = "Нова обява";
+    ViewData["Title"] = "Нова работна позиция";
 }
 
-<h1>@ViewData["Title"]</h1>
+<div class="university-page-header">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h1 class="page-title">
+                    <i class="fas fa-plus text-primary"></i>
+                    Нова работна позиция
+                </h1>
+                <p class="page-subtitle">Добавете нова възможност за кариерно развитие</p>
+            </div>
+            <div class="col-md-4 text-md-end">
+                <a asp-action="Index" class="btn btn-outline-university">
+                    <i class="fas fa-arrow-left"></i> Назад
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
 
-<form asp-action="Create" method="post">
-    <div class="form-group">
-        <label asp-for="Title"></label>
-        <input asp-for="Title" class="form-control" />
-        <span asp-validation-for="Title" class="text-danger"></span>
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-lg-10 mx-auto">
+            <div class="university-card form-card">
+                <div class="card-header bg-university text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-briefcase"></i>
+                        Нова позиция - Основна информация
+                    </h5>
+                </div>
+
+                <div class="card-body">
+                    <form asp-action="Create" method="post" class="university-form" id="job-create-form">
+                        <!-- Position Information Section -->
+                        <div class="form-section">
+                            <div class="form-section-header">
+                                <h6><i class="fas fa-briefcase"></i> Основна информация</h6>
+                            </div>
+
+                            <div class="row g-3">
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label asp-for="Title" class="form-label">
+                                            <i class="fas fa-heading text-primary"></i> Заглавие на позицията
+                                        </label>
+                                        <input asp-for="Title" class="form-control university-input" placeholder="Въведете заглавие на позицията" />
+                                        <span asp-validation-for="Title" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label asp-for="PostedOn" class="form-label">
+                                            <i class="fas fa-calendar-plus text-primary"></i> Дата на публикуване
+                                        </label>
+                                        <input asp-for="PostedOn" type="date" class="form-control university-input" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                                        <span asp-validation-for="PostedOn" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="Company" class="form-label">
+                                            <i class="fas fa-building text-primary"></i> Компания
+                                        </label>
+                                        <input asp-for="Company" class="form-control university-input" placeholder="Въведете име на компанията" />
+                                        <span asp-validation-for="Company" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="Location" class="form-label">
+                                            <i class="fas fa-map-marker-alt text-primary"></i> Локация
+                                        </label>
+                                        <input asp-for="Location" class="form-control university-input" placeholder="Въведете местоположение" />
+                                        <span asp-validation-for="Location" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Description Section -->
+                        <div class="form-section">
+                            <div class="form-section-header">
+                                <h6><i class="fas fa-file-alt"></i> Описание на позицията</h6>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Description" class="form-label">
+                                    <i class="fas fa-align-left text-primary"></i> Подробно описание
+                                </label>
+                                <textarea asp-for="Description" class="form-control university-input" rows="8"
+                                          placeholder="Въведете подробно описание на позицията, изисквания, отговорности и други важни детайли..."></textarea>
+                                <span asp-validation-for="Description" class="text-danger"></span>
+                                <small class="form-text text-muted">
+                                    <i class="fas fa-info-circle"></i>
+                                    Включете информация за отговорности, изисквания, заплащане и други важни детайли.
+                                </small>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="card-footer text-center">
+                    <div class="btn-group-university" role="group">
+                        <button type="submit" form="job-create-form" class="btn btn-university-primary btn-lg">
+                            <i class="fas fa-plus"></i> Създай позиция
+                        </button>
+                        <a asp-action="Index" class="btn btn-outline-secondary btn-lg">
+                            <i class="fas fa-times"></i> Отказ
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="form-group">
-        <label asp-for="Company"></label>
-        <input asp-for="Company" class="form-control" />
-        <span asp-validation-for="Company" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Description"></label>
-        <textarea asp-for="Description" class="form-control"></textarea>
-        <span asp-validation-for="Description" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Location"></label>
-        <input asp-for="Location" class="form-control" />
-        <span asp-validation-for="Location" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="PostedOn"></label>
-        <input asp-for="PostedOn" type="date" class="form-control" />
-        <span asp-validation-for="PostedOn" class="text-danger"></span>
-    </div>
-    <button type="submit" class="btn btn-primary">Запази</button>
-    <a asp-action="Index" class="btn btn-link">Отказ</a>
-</form>
+</div>
 
 @section Scripts {
     @{

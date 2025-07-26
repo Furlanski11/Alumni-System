@@ -1,68 +1,195 @@
 ﻿@model AlumniSystem.Core.ViewModels.AlumniViewModel
 @using AlumniSystem.Infrastructure.Models.Enums
 @{
-    ViewData["Title"] = "Редактирай потребител";
+    var isAdminEdit = ViewBag.IsAdminEdit ?? false;
+    ViewData["Title"] = isAdminEdit ? "Редактирай алумни профил (Админ)" : "Редактирай моя профил";
 }
-<h2 class="mx-auto">@ViewData["Title"]</h2>
-<form asp-action="Edit">
-    <input type="hidden" asp-for="Id" />
-    <!-- Repeat fields as in Create -->
-    <div class="form-group col-md-4">
-        <label asp-for="FacultyNumber">Факултетен номер</label>
-        <input asp-for="FacultyNumber" class="form-control" />
-        <span asp-validation-for="FacultyNumber" class="text-danger"></span>
-    </div>
-    <!-- Name fields -->
-    <div class="form-row">
-        <div class="form-group col-md-4">
-            <label asp-for="FirstName">Име</label>
-            <input asp-for="FirstName" class="form-control" />
-            <span asp-validation-for="FirstName" class="text-danger"></span>
-        </div>
-        <div class="form-group col-md-4">
-            <label asp-for="Surname">Бащино име</label>
-            <input asp-for="Surname" class="form-control" />
-            <span asp-validation-for="Surname" class="text-danger"></span>
-        </div>
-        <div class="form-group col-md-4">
-            <label asp-for="LastName">Фамилия</label>
-            <input asp-for="LastName" class="form-control" />
-            <span asp-validation-for="LastName" class="text-danger"></span>
+
+<div class="university-page-header">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h1 class="page-title">
+                    <i class="fas fa-user-edit text-primary"></i>
+                    @(isAdminEdit ? "Администриране на профил" : "Редактиране на профил")
+                </h1>
+                <p class="page-subtitle">
+                    @(isAdminEdit ? "Административно редактиране на алумни профил" : "Актуализирайте вашата информация")
+                </p>
+            </div>
+            <div class="col-md-4 text-md-end">
+                <a asp-action="Index" class="btn btn-outline-university">
+                    <i class="fas fa-arrow-left"></i> Назад
+                </a>
+            </div>
         </div>
     </div>
-    <!-- Email -->
-    <div class="form-group form-group col-md-4">
-        <label asp-for="Email">Имейл</label>
-        <input asp-for="Email" class="form-control" />
-        <span asp-validation-for="Email" class="text-danger"></span>
-    </div>
-    <div class="form-group form-group col-md-4">
-        <label asp-for="Faculty">Факултет</label>
-        <div class="form-group">
-            @* <label asp-for="Faculty" class="control-label"></label> *@
-            <select asp-for="Faculty" 
-                asp-items="Html.GetEnumSelectList<Faculty>()" 
-                class="form-control">
-            <option value="">-- Изберете факултет --</option>
-            </select>
-        <span asp-validation-for="Faculty" class="text-danger"></span>
+</div>
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-lg-10 mx-auto">
+            @if (isAdminEdit)
+            {
+                <div class="alert alert-warning alert-university">
+                    <i class="fas fa-user-shield"></i>
+                    <strong>Администраторски режим:</strong> Редактирате профила на потребител с ID: @ViewBag.EditingUserId
+                </div>
+            }
+
+            <div class="university-card form-card">
+                <div class="card-header bg-university text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-edit"></i>
+                        Информация за профила
+                    </h5>
+                </div>
+
+                <div class="card-body">
+                    @if (!ViewData.ModelState.IsValid)
+                    {
+                        <div asp-validation-summary="All" class="alert alert-danger alert-university mb-4"></div>
+                    }
+
+                    <form asp-action="Edit" method="post" class="university-form" id="university-form">
+                        <input type="hidden" asp-for="Id" />
+                        <input type="hidden" asp-for="UserId" />
+
+                        <!-- Personal Information Section -->
+                        <div class="form-section">
+                            <div class="form-section-header">
+                                <h6><i class="fas fa-user"></i> Лична информация</h6>
+                            </div>
+
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="FacultyNumber" class="form-label">
+                                            <i class="fas fa-id-card text-primary"></i> Факултетен номер
+                                        </label>
+                                        <input asp-for="FacultyNumber" class="form-control university-input" placeholder="Въведете факултетен номер" />
+                                        <span asp-validation-for="FacultyNumber" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="Email" class="form-label">
+                                            <i class="fas fa-envelope text-primary"></i> Имейл адрес
+                                        </label>
+                                        <input asp-for="Email" class="form-control university-input" placeholder="Въведете имейл адрес" />
+                                        <span asp-validation-for="Email" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label asp-for="FirstName" class="form-label">
+                                            <i class="fas fa-user text-primary"></i> Име
+                                        </label>
+                                        <input asp-for="FirstName" class="form-control university-input" placeholder="Име" />
+                                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label asp-for="Surname" class="form-label">
+                                            <i class="fas fa-user text-primary"></i> Бащино име
+                                        </label>
+                                        <input asp-for="Surname" class="form-control university-input" placeholder="Бащино име" />
+                                        <span asp-validation-for="Surname" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label asp-for="LastName" class="form-label">
+                                            <i class="fas fa-user text-primary"></i> Фамилия
+                                        </label>
+                                        <input asp-for="LastName" class="form-control university-input" placeholder="Фамилия" />
+                                        <span asp-validation-for="LastName" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Academic Information Section -->
+                        <div class="form-section">
+                            <div class="form-section-header">
+                                <h6><i class="fas fa-graduation-cap"></i> Академична информация</h6>
+                            </div>
+
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="Faculty" class="form-label">
+                                            <i class="fas fa-university text-primary"></i> Факултет
+                                        </label>
+                                        <select asp-for="Faculty"
+                                                asp-items="Html.GetEnumSelectList<Faculty>()"
+                                                class="form-control university-select">
+                                            <option value="">-- Изберете факултет --</option>
+                                        </select>
+                                        <span asp-validation-for="Faculty" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="Degree" class="form-label">
+                                            <i class="fas fa-book text-primary"></i> Специалност
+                                        </label>
+                                        <input asp-for="Degree" class="form-control university-input" placeholder="Въведете специалност" />
+                                        <span asp-validation-for="Degree" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="GraduationYear" class="form-label">
+                                            <i class="fas fa-calendar-alt text-primary"></i> Дата на завършване
+                                        </label>
+                                        <input asp-for="GraduationYear" type="date" class="form-control university-input" />
+                                        <span asp-validation-for="GraduationYear" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="CurrentPosition" class="form-label">
+                                            <i class="fas fa-briefcase text-primary"></i> Текуща позиция
+                                        </label>
+                                        <input asp-for="CurrentPosition" class="form-control university-input" placeholder="Въведете текуща позиция" />
+                                        <span asp-validation-for="CurrentPosition" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="card-footer text-center">
+                    <div class="btn-group-university" role="group">
+                        <button type="submit" form="university-form" class="btn btn-university-primary btn-lg">
+                            <i class="fas fa-save"></i> Запази промените
+                        </button>
+                        <a asp-action="Index" class="btn btn-outline-secondary btn-lg">
+                            <i class="fas fa-times"></i> Отказ
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="form-group form-group col-md-4">
-        <label asp-for="Degree">Специалност</label>
-        <input asp-for="Degree" class="form-control" />
-        <span asp-validation-for="Degree" class="text-danger"></span>
-    </div>
-    <div class="form-group form-group col-md-4">
-        <label asp-for="GraduationYear">Дата на завършване</label>
-        <input asp-for="GraduationYear" type="date" class="form-control" />
-        <span asp-validation-for="GraduationYear" class="text-danger"></span>
-    </div>
-    <div class="form-group form-group col-md-4">
-        <label asp-for="CurrentPosition">Професия</label>
-        <input asp-for="CurrentPosition" class="form-control" />
-        <span asp-validation-for="CurrentPosition" class="text-danger"></span>
-    </div>
-    <button type="submit" class="btn btn-primary mt-2">Запази</button>
-    <a asp-action="Index" class="btn btn-secondary mt-2">Отказ</a>
-</form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

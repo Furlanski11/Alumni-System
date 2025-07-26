@@ -1,45 +1,135 @@
 ﻿@model IEnumerable<AlumniSystem.Core.ViewModels.JobPostingViewModel>
-
 @{
-    ViewData["Title"] = "Обяви за работа";
+    ViewData["Title"] = "Работни позиции";
 }
 
-<h1>@ViewData["Title"]</h1>
+<div class="university-page-header">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h1 class="page-title">
+                    <i class="fas fa-briefcase text-primary"></i>
+                    Работни позиции
+                </h1>
+                <p class="page-subtitle">Откриайте кариерни възможности чрез алумни мрежата</p>
+            </div>
+            <div class="col-md-4 text-md-end">
+                @if (User.IsInRole("Admin"))
+                {
+                    <a asp-action="Create" class="btn btn-university-primary">
+                        <i class="fas fa-plus"></i> Добави позиция
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+</div>
 
-<p>
-    @if (User.IsInRole("Admin"))
-    {
-        <a asp-action="Create" class="btn btn-primary">Добави обява</a>
-    }
-</p>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>Заглавие</th>
-            <th>Компания</th>
-            <th>Дата</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.Title</td>
-                <td>@item.Company</td>
-                <td>@item.PostedOn</td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@item.Id">Преглед</a>
-                    @if(User.IsInRole("Admin"))
-					{
-					  @: |
-						<a asp-action="Edit" asp-route-id="@item.Id">Редакция</a>
-						@: |
-						<a asp-action="Delete" asp-route-id="@item.Id">Изтриване</a>
-					}
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="university-card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">
+                        <i class="fas fa-list"></i> Налични позиции
+                        <span class="badge badge-university ms-2">@Model.Count() обяви</span>
+                    </h5>
+                </div>
+                <div class="card-body p-0">
+                    @if (Model.Any())
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-hover job-posting-table mb-0">
+                                <thead class="table-university">
+                                    <tr>
+                                        <th><i class="fas fa-heading"></i> Позиция</th>
+                                        <th><i class="fas fa-building"></i> Компания</th>
+                                        <th><i class="fas fa-map-marker-alt"></i> Локация</th>
+                                        <th><i class="fas fa-calendar-plus"></i> Публикувана</th>
+                                        <th class="text-center"><i class="fas fa-cogs"></i> Действия</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <div class="job-title">
+                                                    <strong>@item.Title</strong>
+                                                    <div class="job-freshness">
+                                                        @if ((DateTime.Now - item.PostedOn).TotalDays <= 7)
+                                                        {
+                                                            <span class="badge badge-job-new">Нова</span>
+                                                        }
+                                                        else if ((DateTime.Now - item.PostedOn).TotalDays <= 30)
+                                                        {
+                                                            <span class="badge badge-job-recent">Актуална</span>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="company-info">
+                                                    <i class="fas fa-building text-primary"></i>
+                                                    <strong>@item.Company</strong>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="job-location">
+                                                    <i class="fas fa-location-arrow text-primary"></i>
+                                                    @item.Location
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="posted-date">
+                                                    <i class="fas fa-clock text-primary"></i>
+                                                    @item.PostedOn.ToString("dd.MM.yyyy")
+                                                </div>
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="btn-group btn-group-sm" role="group">
+                                                    <a asp-action="Details" asp-route-id="@item.Id"
+                                                       class="btn btn-outline-primary btn-sm"
+                                                       title="Преглед на позиция">
+                                                        <i class="fas fa-eye"></i>
+                                                    </a>
+                                                    @if (User.IsInRole("Admin"))
+                                                    {
+                                                        <a asp-action="Edit" asp-route-id="@item.Id"
+                                                           class="btn btn-outline-warning btn-sm"
+                                                           title="Редактирай позиция">
+                                                            <i class="fas fa-edit"></i>
+                                                        </a>
+                                                        <a asp-action="Delete" asp-route-id="@item.Id"
+                                                           class="btn btn-outline-danger btn-sm"
+                                                           title="Изтрий позиция">
+                                                            <i class="fas fa-trash"></i>
+                                                        </a>
+                                                    }
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="empty-state text-center py-5">
+                            <i class="fas fa-briefcase fa-3x text-muted mb-3"></i>
+                            <h5 class="text-muted">Няма налични позиции</h5>
+                            <p class="text-muted">В момента няма публикувани работни позиции.</p>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <a asp-action="Create" class="btn btn-university-primary mt-3">
+                                    <i class="fas fa-plus"></i> Добави първата позиция
+                                </a>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

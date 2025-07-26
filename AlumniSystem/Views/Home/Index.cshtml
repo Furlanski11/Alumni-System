@@ -1,8 +1,203 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Начало";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="hero-content">
+        <div class="hero-logo">
+            <div class="navbar-logo me-3">
+                <img src="~/images/puLoginPic.png" alt="University Logo" class="navbar-logo-img" />
+            </div>
+        </div>
+        <h1 class="hero-title">Добре дошли в Alumni System</h1>
+        <h2 class="hero-subtitle">Пловдивски университет "Паисий Хилендарски"</h2>
+        <p class="hero-description">
+            Свържете се със своята алумни общност. Споделяйте знания, откриайте нови възможности
+            и поддържайте връзките със своя университет.
+        </p>
+        @if (!User.Identity.IsAuthenticated)
+        {
+            <div class="hero-actions">
+                <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-hero-primary">
+                    <i class="fas fa-user-plus"></i> Присъединете се
+                </a>
+                <a asp-area="Identity" asp-page="/Account/Login" class="btn btn-hero-secondary">
+                    <i class="fas fa-sign-in-alt"></i> Вход
+                </a>
+            </div>
+        }
+        else
+        {
+            <div class="hero-actions">
+                <a asp-controller="Alumni" asp-action="MyProfile" class="btn btn-hero-primary">
+                    <i class="fas fa-user-edit"></i> Моят профил
+                </a>
+            </div>
+        }
+    </div>
+</section>
+
+@if (User.Identity.IsAuthenticated)
+{
+    <!-- Dashboard Section for Authenticated Users -->
+    <section class="dashboard-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h3 class="section-title">Вашето табло</h3>
+                    <p class="section-subtitle">Бърз достъп до всички функции на системата</p>
+                </div>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card profile-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-user-edit"></i>
+                        </div>
+                        <h5 class="feature-title">Моят профил</h5>
+                        <p class="feature-description">Редактирайте вашата информация като алумни и поддържайте профила си актуален.</p>
+                        <a asp-controller="Alumni" asp-action="Edit" class="btn btn-feature">Редактирай профил</a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card community-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-user-friends"></i>
+                        </div>
+                        <h5 class="feature-title">Общности</h5>
+                        <p class="feature-description">Присъединете се към алумни общности по интереси и специалности.</p>
+                        <a asp-controller="Community" asp-action="Index" class="btn btn-feature">Виж общности</a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card events-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <h5 class="feature-title">Събития</h5>
+                        <p class="feature-description">Разгледайте предстоящи алумни събития и възсъединения.</p>
+                        <a asp-controller="Event" asp-action="Index" class="btn btn-feature">Виж събития</a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card jobs-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-briefcase"></i>
+                        </div>
+                        <h5 class="feature-title">Работни позиции</h5>
+                        <p class="feature-description">Откриайте възможности за кариерно развитие и нови предизвикателства.</p>
+                        <a asp-controller="JobPosting" asp-action="Index" class="btn btn-feature">Виж позиции</a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card alumni-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h5 class="feature-title">Мрежа от алумни</h5>
+                        <p class="feature-description">Разгледайте всички регистрирани алумни и разширете мрежата си.</p>
+                        <a asp-controller="Alumni" asp-action="Index" class="btn btn-feature">Виж алумни</a>
+                    </div>
+                </div>
+                @if (User.IsInRole("Admin"))
+                {
+                    <div class="col-lg-4 col-md-6">
+                        <div class="feature-card admin-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-cogs"></i>
+                            </div>
+                            <h5 class="feature-title">Администрация</h5>
+                            <p class="feature-description">Управление на системата и административни функции.</p>
+                            <a asp-controller="Alumni" asp-action="Create" class="btn btn-feature-admin">Управление</a>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+}
+else
+{
+    <!-- Features Section for Non-Authenticated Users -->
+    <section class="features-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h3 class="section-title">Защо да се присъедините?</h3>
+                    <p class="section-subtitle">Открийте възможностите, които ви предлага Alumni System</p>
+                </div>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-3 col-md-6">
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <i class="fas fa-network-wired"></i>
+                        </div>
+                        <h6 class="info-title">Мрежа от контакти</h6>
+                        <p class="info-description">Свържете се с бивши съученици и професионалисти в различни области.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <i class="fas fa-briefcase"></i>
+                        </div>
+                        <h6 class="info-title">Кариерни възможности</h6>
+                        <p class="info-description">Намерете работа чрез алумни мрежата и споделете нови позиции.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <h6 class="info-title">Образователни събития</h6>
+                        <p class="info-description">Участвайте в лекции, семинари и възсъединения на университета.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <i class="fas fa-handshake"></i>
+                        </div>
+                        <h6 class="info-title">Общности по интереси</h6>
+                        <p class="info-description">Присъединете се към групи с общи интереси и професионални направления.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+<!-- Stats Section -->
+<section class="stats-section">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="stat-item">
+                    <div class="stat-number">60+</div>
+                    <div class="stat-label">Години традиции</div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="stat-item">
+                    <div class="stat-number">50,000+</div>
+                    <div class="stat-label">Възпитаници</div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="stat-item">
+                    <div class="stat-number">12</div>
+                    <div class="stat-label">Факултета</div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="stat-item">
+                    <div class="stat-number">100+</div>
+                    <div class="stat-label">Специалности</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
