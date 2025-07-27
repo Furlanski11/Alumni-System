@@ -6,14 +6,14 @@
 <section class="hero-section">
     <div class="hero-content">
         <div class="hero-logo">
-            <div class="navbar-logo me-3">
-                <img src="~/images/puLoginPic.png" alt="University Logo" class="navbar-logo-img" />
+            <div class="navbar-logo me-3 mb-2">
+                <img src="~/images/puLoginPic.png" alt="University Logo" class="index-logo-img" />
             </div>
         </div>
-        <h1 class="hero-title">Добре дошли в Alumni System</h1>
+        <h1 class="hero-title">Интегрирана информационна система за проследяване и връзка със студенти</h1>
         <h2 class="hero-subtitle">Пловдивски университет "Паисий Хилендарски"</h2>
         <p class="hero-description">
-            Свържете се със своята алумни общност. Споделяйте знания, откриайте нови възможности
+            Свържете се със своята алумни общност. Споделяйте знания, откривайте нови възможности
             и поддържайте връзките със своя университет.
         </p>
         @if (!User.Identity.IsAuthenticated)
@@ -86,7 +86,7 @@
                             <i class="fas fa-briefcase"></i>
                         </div>
                         <h5 class="feature-title">Работни позиции</h5>
-                        <p class="feature-description">Откриайте възможности за кариерно развитие и нови предизвикателства.</p>
+                        <p class="feature-description">Открийте възможности за кариерно развитие и нови предизвикателства.</p>
                         <a asp-controller="JobPosting" asp-action="Index" class="btn btn-feature">Виж позиции</a>
                     </div>
                 </div>
@@ -125,7 +125,7 @@ else
             <div class="row">
                 <div class="col-12 text-center">
                     <h3 class="section-title">Защо да се присъедините?</h3>
-                    <p class="section-subtitle">Открийте възможностите, които ви предлага Alumni System</p>
+                    <p class="section-subtitle">Открийте възможностите, които ви предлага Интегриранаta информационна система за проследяване и връзка със студенти.</p>
                 </div>
             </div>
             <div class="row g-4">

@@ -59,8 +59,14 @@ body {
 }
 
 .navbar-logo-img {
-    width: 50px;
-    height: 50px;
+    width: 70px;
+    height: 70px;
+    object-fit: contain;
+}
+
+.index-logo-img {
+    width: 280px;
+    height: 280px;
     object-fit: contain;
 }
 
@@ -166,7 +172,7 @@ body {
 }
 
 .hero-title {
-    font-size: 3.5rem;
+    font-size: 2.5rem;
     font-weight: 700;
     margin-bottom: 1rem;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
