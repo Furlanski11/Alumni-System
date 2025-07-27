@@ -10,7 +10,7 @@ namespace AlumniSystem.Controllers
 	public class AlumniController : Controller
 	{
 		private readonly IAlumniService service;
-		private const int PageSize = 10;
+		private const int PageSize = 5;
 
 		public AlumniController(IAlumniService _service)
 		{

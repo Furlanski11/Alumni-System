@@ -11,7 +11,7 @@ namespace AlumniSystem.Controllers
 	{
 		private readonly ICommunityService communityService;
 		private readonly IAlumniService alumniService;
-		private const int PageSize = 10;
+		private const int PageSize = 5;
 
 		public CommunityController(ICommunityService _communityService, IAlumniService _alumniService)
 		{

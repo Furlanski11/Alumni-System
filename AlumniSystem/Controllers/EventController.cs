@@ -10,7 +10,7 @@ namespace AlumniSystem.Controllers
 	public class EventController : Controller
 	{
 		private readonly IEventService _eventService;
-		private const int PageSize = 10;
+		private const int PageSize = 5;
 
 		public EventController(IEventService eventService)
 		{
