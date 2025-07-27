@@ -48,7 +48,7 @@ namespace AlumniSystem.Controllers
 			}
 			catch (Exception ex)
 			{
-				TempData["ErrorMessage"] = "An error occurred while loading job posting details.";
+				TempData["ErrorMessage"] = "Грешка при зареждане на данните за обяви. Опитай отново!.";
 				return RedirectToAction(nameof(Index));
 			}
 		}
@@ -72,12 +72,12 @@ namespace AlumniSystem.Controllers
 
 				model.PostedOn = DateTime.Now;
 				await _jobService.AddAsync(model);
-				TempData["SuccessMessage"] = "Job posting created successfully.";
+				TempData["SuccessMessage"] = "Успешно създадена обява.";
 				return RedirectToAction(nameof(Index));
 			}
 			catch (Exception ex)
 			{
-				ModelState.AddModelError(string.Empty, "An error occurred while creating the job posting. Please try again.");
+				ModelState.AddModelError(string.Empty, "Грешка при създаване на обява. Опитай отново.");
 				return View(model);
 			}
 		}
@@ -98,7 +98,7 @@ namespace AlumniSystem.Controllers
 			}
 			catch (Exception ex)
 			{
-				TempData["ErrorMessage"] = "An error occurred while loading the job posting for editing.";
+				TempData["ErrorMessage"] = "Грешка при зареждане на обява.";
 				return RedirectToAction(nameof(Index));
 			}
 		}
@@ -116,12 +116,12 @@ namespace AlumniSystem.Controllers
 					return View(model);
 
 				await _jobService.UpdateAsync(model);
-				TempData["SuccessMessage"] = "Job posting updated successfully.";
+				TempData["SuccessMessage"] = "Успешно публикуване на обява.";
 				return RedirectToAction(nameof(Index));
 			}
 			catch (Exception ex)
 			{
-				ModelState.AddModelError(string.Empty, "An error occurred while updating the job posting. Please try again.");
+				ModelState.AddModelError(string.Empty, "Грешка при редактиране на обява. Опитай отново.");
 				return View(model);
 			}
 		}
@@ -142,7 +142,7 @@ namespace AlumniSystem.Controllers
 			}
 			catch (Exception ex)
 			{
-				TempData["ErrorMessage"] = "An error occurred while loading the job posting for deletion.";
+				TempData["ErrorMessage"] = "Грешка при зареждане на обява.";
 				return RedirectToAction(nameof(Index));
 			}
 		}
@@ -155,12 +155,12 @@ namespace AlumniSystem.Controllers
 			try
 			{
 				await _jobService.DeleteAsync(id);
-				TempData["SuccessMessage"] = "Job posting deleted successfully.";
+				TempData["SuccessMessage"] = "Успешно изтриване на обява.";
 				return RedirectToAction(nameof(Index));
 			}
 			catch (Exception ex)
 			{
-				TempData["ErrorMessage"] = "An error occurred while deleting the job posting. Please try again.";
+				TempData["ErrorMessage"] = "Грешка при изтриване на обява. Опитай отново.";
 				return RedirectToAction(nameof(Index));
 			}
 		}

@@ -235,7 +235,7 @@ namespace AlumniSystem.Controllers
 			}
 			catch (Exception ex)
 			{
-				ModelState.AddModelError(string.Empty, $"An error occurred while updating the alumni profile: {ex.Message}");
+				ModelState.AddModelError(string.Empty, $"Грешка при редактиране на алумни профил: {ex.Message}");
 				return View(model);
 			}
 		}
