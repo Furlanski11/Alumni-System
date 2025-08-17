@@ -1,42 +1,183 @@
 ﻿@using System.Security.Claims
 @inject IHttpContextAccessor HttpContextAccessor
 @model AlumniSystem.Core.ViewModels.CommunityViewModel
- 
 @{
+    ViewData["Title"] = "Детайли за общност";
     var isMember = (bool)(ViewBag.IsMember ?? false);
     var communityId = Model.Id;
 }
- 
-<h1>@Model.Name</h1>
-<p>@Model.Description</p>
- 
-<form asp-action="@(isMember ? "Leave" : "Join")"
-      asp-controller="Community"
-      method="post"
-      class="mb-3">
-    <input type="hidden" name="id" value="@communityId" />
-    <button type="submit"
-            class="btn @(isMember ? "btn-warning" : "btn-success")">
-        @(isMember ? "Напусни общността" : "Присъедини се към общността")
-    </button>
-    @Html.AntiForgeryToken()
-</form>
- 
-<h3>Участници (@Model.Members.Count)</h3>
-@if (Model.Members.Any())
-{
-    <ul>
-    @foreach(var m in Model.Members)
-    {
-        <li>@($"{m.FirstName} {m.LastName} {m.CurrentPosition}")</li>
-    }
-    </ul>
-}
-else
-{
-    <p><em>Все още няма участници.</em></p>
-}
- 
-<p>
-  <a asp-action="Index" class="btn btn-secondary">Назад</a>
-</p>
+
+<div class="university-page-header">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h1 class="page-title">
+                    <i class="fas fa-user-friends text-primary"></i>
+                    Детайли за общност
+                </h1>
+                <p class="page-subtitle">@Model.Name</p>
+            </div>
+            <div class="col-md-4 text-md-end">
+                @if (isMember)
+                {
+                    <span class="badge badge-success">
+                        <i class="fas fa-check-circle"></i> Член на общността
+                    </span>
+                }
+                else
+                {
+                    <span class="badge badge-secondary">
+                        <i class="fas fa-user-plus"></i> Не сте член
+                    </span>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="university-card mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">
+                        <i class="fas fa-info-circle"></i> Информация за общността
+                    </h5>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <div class="btn-group" role="group">
+                            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning btn-sm">
+                                <i class="fas fa-edit"></i> Редактирай
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger btn-sm">
+                                <i class="fas fa-trash"></i> Изтрий
+                            </a>
+                        </div>
+                    }
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="community-info">
+                                <div class="info-section mb-4">
+                                    <div class="info-header">
+                                        <i class="fas fa-tag text-primary me-2"></i>
+                                        <span class="info-label">Име на общността</span>
+                                    </div>
+                                    <h4 class="text-primary mb-0">@Model.Name</h4>
+                                </div>
+
+                                <div class="info-section mb-4">
+                                    <div class="info-header">
+                                        <i class="fas fa-align-left text-primary me-2"></i>
+                                        <span class="info-label">Описание</span>
+                                    </div>
+                                    <div class="community-description mt-2">
+                                        <div class="description-text p-3 bg-light rounded">
+                                            <p class="mb-0 text-break" style="white-space: pre-line;">@Model.Description</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="info-section">
+                                    <div class="info-header">
+                                        <i class="fas fa-users text-primary me-2"></i>
+                                        <span class="info-label">Брой членове</span>
+                                    </div>
+                                    <span class="badge badge-community-members fs-6 mt-1">
+                                        @(Model.Members?.Count ?? 0) @((Model.Members?.Count ?? 0) == 1 ? "член" : "члена")
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="d-flex flex-column align-items-center justify-content-center h-100">
+                                <div class="mb-3">
+                                    @if (isMember)
+                                    {
+                                        <span class="badge badge-success fs-6">
+                                            <i class="fas fa-check-circle"></i> Активен член
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge badge-secondary fs-6">
+                                            <i class="fas fa-user-plus"></i> Не сте член
+                                        </span>
+                                    }
+                                </div>
+                                <form asp-action="@(isMember ? "Leave" : "Join")"
+                                      asp-controller="Community"
+                                      method="post"
+                                      class="d-inline">
+                                    <input type="hidden" name="id" value="@communityId" />
+                                    <button type="submit"
+                                            class="btn @(isMember ? "btn-warning" : "btn-success") btn-lg">
+                                        <i class="fas @(isMember ? "fa-sign-out-alt" : "fa-user-plus")"></i>
+                                        @(isMember ? "Напусни общността" : "Присъедини се")
+                                    </button>
+                                    @Html.AntiForgeryToken()
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Members Section -->
+            <div class="university-card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">
+                        <i class="fas fa-users"></i> Участници в общността
+                        <span class="badge badge-university ms-2">@(Model.Members?.Count ?? 0)</span>
+                    </h5>
+                </div>
+                <div class="card-body">
+                    @if (Model.Members?.Any() == true)
+                    {
+                        <div class="row">
+                            @foreach (var member in Model.Members)
+                            {
+                                <div class="col-lg-4 col-md-6 mb-3">
+                                    <div class="member-card">
+                                        <div class="member-info">
+                                            <div class="member-avatar">
+                                                <i class="fas fa-user-graduate text-primary"></i>
+                                            </div>
+                                            <div class="member-details">
+                                                <h6 class="member-name mb-1">
+                                                    @member.FirstName @member.LastName
+                                                </h6>
+                                                <p class="member-position text-muted mb-0">
+                                                    <i class="fas fa-briefcase"></i> @member.CurrentPosition
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="empty-state text-center py-5">
+                            <i class="fas fa-users fa-3x text-muted mb-3"></i>
+                            <h5 class="text-muted">Все още няма участници</h5>
+                            <p class="text-muted">Бъдете първият, който се присъединява към тази общност!</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-center">
+                <a asp-action="Index" class="btn btn-outline-secondary btn-lg">
+                    <i class="fas fa-arrow-left"></i> Назад към всички общности
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

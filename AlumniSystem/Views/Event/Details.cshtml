@@ -1,20 +1,167 @@
 ﻿@model AlumniSystem.Core.ViewModels.EventViewModel
-<h1>Преглед на събитие</h1>
-<dl class="row">
-	<dt class="col-sm-2">Заглавие</dt>
-	<dd class="col-sm-10">@Model.Title</dd>
-	<dt class="col-sm-2">Описание</dt>
-	<dd class="col-sm-10">@Model.Description</dd>
-	<dt class="col-sm-2">Дата и час на провеждане</dt>
-	<dd class="col-sm-10">@Model.Date</dd>
-	<dt class="col-sm-2">Локация</dt>
-	<dd class="col-sm-10">@Model.Location</dd>
-</dl>
-<p>
-	@if(User.IsInRole("Admin"))
-	{
-		<a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Редактирай</a>
-		<a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Изтрий</a>
-	}
-	<a asp-action="Index" class="btn btn-secondary">Назад</a>
-</p>
+@{
+    ViewData["Title"] = "Детайли за събитие";
+}
+
+<div class="university-page-header">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h1 class="page-title">
+                    <i class="fas fa-calendar-alt text-primary"></i>
+                    Детайли за събитие
+                </h1>
+                <p class="page-subtitle">@Model.Title</p>
+            </div>
+            <div class="col-md-4 text-md-end">
+                @if (Model.Date >= DateTime.Now)
+                {
+                    <span class="badge badge-event-upcoming">
+                        <i class="fas fa-clock"></i> Предстоящо събитие
+                    </span>
+                }
+                else
+                {
+                    <span class="badge badge-event-past">
+                        <i class="fas fa-history"></i> Минало събитие
+                    </span>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="university-card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-info-circle"></i> Информация за събитието
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <dl class="row">
+                                <dt class="col-sm-4">
+                                    <i class="fas fa-heading text-primary"></i> Заглавие
+                                </dt>
+                                <dd class="col-sm-8">
+                                    <strong>@Model.Title</strong>
+                                </dd>
+
+                                <dt class="col-sm-4">
+                                    <i class="fas fa-align-left text-primary"></i> Описание
+                                </dt>
+                                <dd class="col-sm-8">
+                                    <div class="event-description">
+                                        @Model.Description
+                                    </div>
+                                </dd>
+
+                                <dt class="col-sm-4">
+                                    <i class="fas fa-clock text-primary"></i> Дата и час
+                                </dt>
+                                <dd class="col-sm-8">
+                                    <div class="event-date">
+                                        <strong>@Model.Date.ToString("dd.MM.yyyy HH:mm")</strong>
+                                        <div class="text-muted small">
+                                            @Model.Date.ToString("dddd, dd MMMM yyyy", new System.Globalization.CultureInfo("bg-BG"))
+                                        </div>
+                                    </div>
+                                </dd>
+
+                                <dt class="col-sm-4">
+                                    <i class="fas fa-map-marker-alt text-primary"></i> Локация
+                                </dt>
+                                <dd class="col-sm-8">
+                                    <div class="event-location">
+                                        <strong>@Model.Location</strong>
+                                    </div>
+                                </dd>
+                            </dl>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="event-quick-info university-card">
+                                <div class="card-header">
+                                    <h6 class="mb-0">
+                                        <i class="fas fa-calendar-check"></i> Бърза информация
+                                    </h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="info-item mb-3">
+                                        <div class="info-label">Статус:</div>
+                                        <div class="info-value">
+                                            @if (Model.Date >= DateTime.Now)
+                                            {
+                                                <span class="badge badge-event-upcoming">
+                                                    <i class="fas fa-calendar-plus"></i> Предстоящо
+                                                </span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge badge-event-past">
+                                                    <i class="fas fa-calendar-check"></i> Завършено
+                                                </span>
+                                            }
+                                        </div>
+                                    </div>
+
+                                    <div class="info-item mb-3">
+                                        <div class="info-label">Дни до събитието:</div>
+                                        <div class="info-value">
+                                            @{
+                                                var daysLeft = (Model.Date.Date - DateTime.Now.Date).Days;
+                                            }
+                                            @if (daysLeft > 0)
+                                            {
+                                                <span class="text-success">
+                                                    <i class="fas fa-calendar-day"></i> @daysLeft дни
+                                                </span>
+                                            }
+                                            else if (daysLeft == 0)
+                                            {
+                                                <span class="text-warning">
+                                                    <i class="fas fa-exclamation-triangle"></i> Днес
+                                                </span>
+                                            }
+                                            else
+                                            {
+                                                <span class="text-muted">
+                                                    <i class="fas fa-history"></i> Преди @Math.Abs(daysLeft) дни
+                                                </span>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <a asp-action="Index" class="btn btn-outline-secondary">
+                                <i class="fas fa-arrow-left"></i> Назад към списъка
+                            </a>
+                        </div>
+                        <div>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">
+                                    <i class="fas fa-edit"></i> Редактирай
+                                </a>
+                                <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger ms-2">
+                                    <i class="fas fa-trash"></i> Изтрий
+                                </a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
