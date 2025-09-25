@@ -167,7 +167,7 @@ namespace AlumniSystem.Controllers
 		[HttpPost]
 		[Authorize]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Edit(AlumniViewModel model)
+		public async Task<IActionResult> Edit(AlumniViewModel model, string? userId = null)
 		{
 			try
 			{
@@ -194,14 +194,19 @@ namespace AlumniSystem.Controllers
 				}
 				else
 				{
-					// Admin editing: Validate the target user exists
-					if (string.IsNullOrEmpty(model.UserId))
+					// Admin editing: Use the userId parameter if provided, otherwise use model.UserId
+					string targetUserId = !string.IsNullOrEmpty(userId) ? userId : model.UserId;
+
+					if (string.IsNullOrEmpty(targetUserId))
 					{
 						ModelState.AddModelError(nameof(model.UserId), "User ID е задължително.");
 						return View(model);
 					}
 
-					var existingAlumni = await service.GetByIdAsync(model.UserId);
+					// Set the correct UserId in the model
+					model.UserId = targetUserId;
+
+					var existingAlumni = await service.GetByIdAsync(targetUserId);
 					if (existingAlumni == null)
 					{
 						return NotFound("Алумни профил не е намерен.");
@@ -209,11 +214,12 @@ namespace AlumniSystem.Controllers
 
 					model.Id = existingAlumni.Id;
 					ViewBag.IsAdminEdit = true;
-					ViewBag.EditingUserId = model.UserId;
+					ViewBag.EditingUserId = targetUserId;
 				}
 
-				// Remove UserId from model validation since we set it manually
+				// Remove UserId and Id from model validation since we set them manually
 				ModelState.Remove(nameof(model.UserId));
+				ModelState.Remove(nameof(model.Id));
 
 				if (!ModelState.IsValid)
 				{

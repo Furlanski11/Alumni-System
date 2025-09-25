@@ -53,7 +53,15 @@
 
                     <form asp-action="Edit" method="post" class="university-form" id="university-form">
                         <input type="hidden" asp-for="Id" />
-                        <input type="hidden" asp-for="UserId" />
+                        @if (isAdminEdit)
+                        {
+                            <input type="hidden" asp-for="UserId" value="@ViewBag.EditingUserId" data-val="false" />
+                            <input type="hidden" name="userId" value="@ViewBag.EditingUserId" data-val="false" />
+                        }
+                        else
+                        {
+                            <input type="hidden" asp-for="UserId" data-val="false" />
+                        }
 
                         <!-- Personal Information Section -->
                         <div class="form-section">
