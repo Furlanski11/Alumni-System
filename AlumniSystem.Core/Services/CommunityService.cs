@@ -100,6 +100,7 @@ namespace AlumniSystem.Core.Services
 		{
 			var community = new Community
 			{
+				Id = model.Id,
 				Name = model.Name,
 				Description = model.Description,
 			};

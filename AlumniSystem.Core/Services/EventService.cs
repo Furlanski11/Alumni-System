@@ -69,6 +69,7 @@ namespace AlumniSystem.Core.Services
 		{
 			var ev = new Event
 			{
+				Id = model.Id,
 				Date = model.Date,
 				Title = model.Title,
 				Description = model.Description,
