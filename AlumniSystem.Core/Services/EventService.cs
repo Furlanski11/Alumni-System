@@ -58,6 +58,7 @@ namespace AlumniSystem.Core.Services
 
 			return new EventViewModel
 			{
+				Id = e.Id,
 				Title = e.Title,
 				Description = e.Description,
 				Date = e.Date,
